@@ -8,35 +8,50 @@ body {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 18px;
   line-height: 1.6;
-  color: #000;
-  background: #fff;
-  max-width: 640px;
+  color: #2A2520;
+  background: #FAF6F0;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 3rem 1.5rem 5rem;
 }
 
 nav {
-  margin-bottom: 3rem;
+  margin-bottom: 0;
 }
 
 nav a {
   margin-right: 1.5rem;
-  color: #000;
+  color: #2A2520;
   text-decoration: none;
+  font-variant: small-caps;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  font-size: 1.05rem;
 }
 
 nav a:hover {
   text-decoration: underline;
+  text-decoration-color: #B8860B;
+  text-underline-offset: 4px;
 }
 
 nav a.active {
   text-decoration: underline;
+  text-decoration-color: #B8860B;
+  text-underline-offset: 4px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #D4A854;
+  margin: 1.5rem 0 2.5rem;
 }
 
 h1 {
   font-size: 2rem;
   font-weight: normal;
   margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
 }
 
 h2 {
@@ -44,6 +59,9 @@ h2 {
   font-weight: normal;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #D4A854;
 }
 
 p {
@@ -51,8 +69,9 @@ p {
 }
 
 a {
-  color: #000;
+  color: #B8860B;
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 a:hover {
@@ -72,8 +91,15 @@ ul li {
   font-style: italic;
 }
 
+ul li:not(:last-child) {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e8e0d4;
+}
+
 .cv-entry {
   margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid #D4A854;
 }
 
 .cv-entry h3 {
@@ -88,13 +114,7 @@ ul li {
 
 .cv-entry .period {
   font-size: 0.9rem;
-  color: #444;
-}
-
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
+  color: #8B7D6B;
 }
 
 .contact-list li {
