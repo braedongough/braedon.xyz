@@ -6,6 +6,7 @@ const MIME_TYPES: Record<string, string> = {
   ".css": "text/css",
   ".js": "application/javascript",
   ".json": "application/json",
+  ".png": "image/png",
 };
 
 Bun.serve({
