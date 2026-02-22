@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #000;
+  background: #fff;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+nav {
+  margin-bottom: 3rem;
+}
+
+nav a {
+  margin-right: 1.5rem;
+  color: #000;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+nav a.active {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: normal;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 1rem;
+}
+
+.project-name {
+  font-style: italic;
+}
+
+.cv-entry {
+  margin-bottom: 1.5rem;
+}
+
+.cv-entry h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.cv-entry .role {
+  font-style: italic;
+}
+
+.cv-entry .period {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.contact-list li {
+  margin-bottom: 0.75rem;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "braedon.xyz",
+  "scripts": {
+    "dev": "bun run serve.ts"
+  }
+}
