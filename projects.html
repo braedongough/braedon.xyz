@@ -4,35 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Braedon Gough</title>
+  <meta name="description" content="Side projects by Braedon Gough — WishyPig, Imskir, and Clean Print.">
+  <meta name="theme-color" content="#0A0A14">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="styles.css">
-  <script src="theme.js"></script>
+  <script src="/main.js" defer></script>
+  <link rel="preload" href="/fonts/silkscreen-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/silkscreen-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/genesis.css">
 </head>
 <body>
-  <nav>
-    <a href="/">About</a>
-    <a href="/projects.html" class="active">Projects</a>
-    <a href="/cv.html">CV</a>
-    <a href="/contact.html">Contact</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/">About</a></li>
+      <li><a href="/projects.html" class="active" aria-current="page">Projects</a></li>
+      <li><a href="/cv.html">CV</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
   </nav>
-  <hr>
 
-  <h1>Projects</h1>
+  <main>
+    <span class="eyebrow">02 / CARTRIDGE BAY</span>
+    <h1>Projects</h1>
 
-  <ul>
-    <li>
-      <span class="project-name">WishyPig</span> — Family wishlist management app.
-      <a href="https://wishypig.com">wishypig.com</a>
-    </li>
-    <li>
-      <span class="project-name">Imskir</span> — Browser extension that translates natural language to Scryfall MTG search syntax.
-      <a href="https://github.com/braedongough/imskir">GitHub</a>
-    </li>
-    <li>
-      <span class="project-name">Clean Print</span> — Distraction-free article reformatter for print.
-      <a href="https://cleanprint.onrender.com">cleanprint.onrender.com</a> ·
-      <a href="https://github.com/braedongough/clean-print">GitHub</a>
-    </li>
-  </ul>
+    <ul class="project-list">
+      <li class="cart cart--cyan">
+        <div class="cart-head">
+          <h3><span class="project-name">WishyPig</span></h3>
+        </div>
+        <div class="cart-body">
+          <p>Family wishlist management app.</p>
+          <p><a href="https://wishypig.com">wishypig.com</a></p>
+        </div>
+      </li>
+      <li class="cart cart--magenta">
+        <div class="cart-head">
+          <h3><span class="project-name">Imskir</span></h3>
+        </div>
+        <div class="cart-body">
+          <p>Browser extension that translates natural language to Scryfall MTG search syntax.</p>
+          <p><a href="https://github.com/braedongough/imskir">GitHub</a></p>
+        </div>
+      </li>
+      <li class="cart cart--lime">
+        <div class="cart-head">
+          <h3><span class="project-name">Clean Print</span></h3>
+        </div>
+        <div class="cart-body">
+          <p>Distraction-free article reformatter for print.</p>
+          <p><a href="https://cleanprint.onrender.com">cleanprint.onrender.com</a> ·
+          <a href="https://github.com/braedongough/clean-print">GitHub</a></p>
+        </div>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <span class="copyright">© 2026 BRAEDON GOUGH</span>
+    <span class="hint">HINT: ↑↑↓↓←→←→BA</span>
+  </footer>
 </body>
 </html>

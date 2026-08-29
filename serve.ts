@@ -7,6 +7,11 @@ const MIME_TYPES: Record<string, string> = {
   ".js": "application/javascript",
   ".json": "application/json",
   ".png": "image/png",
+  ".woff2": "font/woff2",
+  ".svg": "image/svg+xml",
+  ".txt": "text/plain",
+  ".ico": "image/x-icon",
+  ".webmanifest": "application/manifest+json",
 };
 
 Bun.serve({
@@ -23,6 +28,13 @@ Bun.serve({
     const f = file(filePath);
 
     if (!(await f.exists())) {
+      const notFound = file(join(import.meta.dir, "404.html"));
+      if (await notFound.exists()) {
+        return new Response(notFound, {
+          status: 404,
+          headers: { "Content-Type": "text/html" },
+        });
+      }
       return new Response("Not Found", { status: 404 });
     }
 

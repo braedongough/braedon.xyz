@@ -4,25 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — Braedon Gough</title>
+  <meta name="description" content="Contact Braedon Gough — email, GitHub, LinkedIn.">
+  <meta name="theme-color" content="#0A0A14">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="styles.css">
-  <script src="theme.js"></script>
+  <script src="/main.js" defer></script>
+  <link rel="preload" href="/fonts/silkscreen-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/silkscreen-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/genesis.css">
 </head>
 <body>
-  <nav>
-    <a href="/">About</a>
-    <a href="/projects.html">Projects</a>
-    <a href="/cv.html">CV</a>
-    <a href="/contact.html" class="active">Contact</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/">About</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/cv.html">CV</a></li>
+      <li><a href="/contact.html" class="active" aria-current="page">Contact</a></li>
+    </ul>
   </nav>
-  <hr>
 
-  <h1>Contact</h1>
+  <main>
+    <span class="eyebrow">04 / SELECT OPTION</span>
+    <h1>Contact</h1>
 
-  <ul class="contact-list">
-    <li><a href="mailto:braedon@braedon.xyz">braedon@braedon.xyz</a></li>
-    <li><a href="https://github.com/braedongough">github.com/braedongough</a></li>
-    <li><a href="https://linkedin.com/in/braedon-g-ba92a048">linkedin.com/in/braedon-g-ba92a048</a></li>
-  </ul>
+    <ul class="contact-list" data-select-menu>
+      <li><a href="mailto:braedon@braedon.xyz">braedon@braedon.xyz</a></li>
+      <li><a href="https://github.com/braedongough">github.com/braedongough</a></li>
+      <li><a href="https://linkedin.com/in/braedon-g-ba92a048">linkedin.com/in/braedon-g-ba92a048</a></li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <span class="copyright">© 2026 BRAEDON GOUGH</span>
+    <span class="hint">HINT: ↑↑↓↓←→←→BA</span>
+  </footer>
 </body>
 </html>

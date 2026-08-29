@@ -1,0 +1,1055 @@
+/* genesis.css — CLEAN GLOSSY Genesis 16-bit, round 2: black + neon arcade cabinet.
+   Hard boundaries, bevels, dither. No blur, no radii. Sections marked with ----- */
+
+/* ---------- Tokens ---------- */
+
+:root {
+  --bg: #0A0A14;
+  --panel: #003B63; /* navy survives as panel fill only */
+  --panel-deep: #001B35;
+  --outline: #1479D1;
+  --deep: #07121C;
+  --rim: #06060F;
+
+  --cyan: #00D9E8;
+  --lime: #91F26A;
+  --magenta: #F02CA8;
+  --gold: #FFD91A;
+  --gold-deep: #FFB500;
+  --green: #35D44A;
+  --danger: #E52D12;
+  --danger-hot: #FF4B00;
+  --pink: #F02CA8; /* alias: chrome mode */
+
+  --sky: #6DE8E5;
+  --aqua: #B5F5D8;
+  --cream: #FFF7D0;
+
+  --font-hud: "Silkscreen", monospace;
+  --font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --cart-cyan: #00D9E8;
+  --cart-magenta: #F02CA8;
+  --cart-lime: #91F26A;
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/silkscreen-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/silkscreen-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Base ---------- */
+
+* {
+  box-sizing: border-box;
+  border-radius: 0 !important;
+}
+
+html {
+  background: var(--bg);
+  scrollbar-color: var(--outline) var(--bg);
+}
+
+body {
+  margin: 0;
+  padding: 1.5rem 1.75rem 3rem;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse 65% 42% at 12% -8%, rgba(240, 44, 168, 0.10), transparent 62%),
+    radial-gradient(ellipse 65% 42% at 88% -8%, rgba(0, 217, 232, 0.09), transparent 62%),
+    var(--bg);
+  background-attachment: fixed;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Static CRT scanlines + faint vertical vignette. Not motion; unaffected by reduced-motion */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.18) 0px,
+      rgba(0, 0, 0, 0.18) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.10) 0%,
+      rgba(0, 0, 0, 0) 18%,
+      rgba(0, 0, 0, 0) 82%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+}
+
+::selection {
+  background: var(--cyan);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cream);
+  outline-offset: 2px;
+}
+
+/* ---------- Glowing scrollbar ---------- */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--outline);
+  border: 2px solid var(--rim);
+  box-shadow: inset 0 0 6px rgba(0, 217, 232, 0.55);
+}
+
+/* ---------- Starfield canvas ---------- */
+
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---------- Layout ---------- */
+
+main {
+  position: relative;
+  z-index: 5;
+  max-width: 880px;
+  margin: 1.75rem auto 0;
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+hr {
+  display: none;
+}
+
+/* ---------- HUD chrome ---------- */
+
+.hud {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: rgba(10, 10, 20, 0.92);
+  border-bottom: 2px solid var(--outline);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+.hud-bar {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0.4rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hud-left {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-hud);
+  white-space: nowrap;
+}
+
+.hud-wordmark {
+  font-family: var(--font-hud);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: var(--cyan);
+}
+
+.hud-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.1rem;
+}
+
+.hud-nav a {
+  display: inline-block;
+  font-family: var(--font-hud);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cyan);
+  text-shadow: 0 0 6px rgba(0, 217, 232, 0.4);
+  padding: 0.35rem 0.55rem;
+  border: 2px solid transparent;
+}
+
+.hud-nav a:hover {
+  animation: glitch 120ms steps(2, end) 1;
+  background: var(--gold);
+  color: var(--bg);
+  text-shadow: none;
+}
+
+/* Active nav item: gold + static cursor marker */
+.hud-nav a.active {
+  color: var(--gold);
+  text-shadow: 0 0 6px rgba(255, 217, 26, 0.35);
+}
+
+.hud-nav a.active::before {
+  content: "\25B6 ";
+  font-size: 0.65em;
+  vertical-align: 0.15em;
+}
+
+/* Keyboard nav cursor from main.js */
+.hud-nav a.is-selected {
+  outline: 2px solid var(--cream);
+  outline-offset: -2px;
+  color: var(--gold);
+}
+
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-hud);
+  white-space: nowrap;
+}
+
+.hud-lv {
+  font-size: 0.65rem;
+  color: var(--lime);
+  text-shadow: 0 0 6px rgba(145, 242, 106, 0.35);
+}
+
+.xpbar {
+  position: relative;
+  width: 130px;
+  height: 10px;
+  background: var(--deep);
+  border: 2px solid var(--outline);
+  overflow: hidden;
+}
+
+.xpfill {
+  width: 100%;
+  height: 100%;
+  background: var(--cyan);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  box-shadow: 0 0 8px rgba(0, 217, 232, 0.6);
+}
+
+/* segment ticks over the fill */
+.xpbar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent 11px,
+    var(--deep) 11px,
+    var(--deep) 13px
+  );
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: -2px 0 var(--magenta), 2px 0 var(--cyan);
+    transform: translateX(-1px);
+  }
+  50% {
+    text-shadow: 2px 0 var(--magenta), -2px 0 var(--cyan);
+    transform: translateX(1px);
+  }
+  100% {
+    text-shadow: none;
+    transform: none;
+  }
+}
+
+/* ---------- Typography ---------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  line-height: 1.22;
+  color: var(--cream);
+}
+
+h1 {
+  font-size: clamp(2rem, 5.2vw, 3rem);
+  margin: 0 0 1rem;
+  text-shadow: 3px 3px 0 var(--rim), 0 0 10px rgba(0, 217, 232, 0.12);
+}
+
+h2 {
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(0, 217, 232, 0.3);
+  margin: 1.7rem 0 0.8rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--outline);
+}
+
+h3 {
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 0.95rem;
+}
+
+/* Cartridge tab eyebrow labels */
+.eyebrow {
+  display: block;
+  font-family: var(--font-hud);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 6px rgba(255, 217, 26, 0.3);
+  margin: 0 0 0.3rem;
+}
+
+/* ---------- Links ---------- */
+
+a {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  background: var(--gold);
+  color: var(--bg);
+  text-decoration-color: var(--bg);
+  text-shadow: none;
+  transition: none;
+}
+
+/* ---------- Cartridges (panels) ---------- */
+
+.cart,
+.panel {
+  position: relative;
+  background: color-mix(in srgb, var(--panel) 40%, var(--deep));
+  outline: 2px solid var(--outline);
+  outline-offset: -4px;
+  box-shadow:
+    inset 2px 2px 0 rgba(109, 232, 229, 0.22),
+    inset -2px -2px 0 rgba(7, 18, 28, 0.85),
+    4px 4px 0 var(--rim),
+    0 0 14px rgba(0, 217, 232, 0.08);
+  padding: 1rem 1.2rem;
+  margin: 0 0 1rem;
+}
+
+.cart--cyan {
+  --cart: var(--cart-cyan);
+}
+
+.cart--magenta {
+  --cart: var(--cart-magenta);
+}
+
+.cart--lime {
+  --cart: var(--cart-lime);
+}
+
+/* Projects: cartridge with colored header strip */
+.cart {
+  padding: 0;
+  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%, 0 14px);
+  filter: drop-shadow(4px 4px 0 var(--rim));
+  box-shadow: none;
+  outline-offset: -6px;
+  transition: none;
+}
+
+.cart-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: color-mix(in srgb, var(--cart) 30%, var(--deep));
+  border-bottom: 2px solid var(--cart);
+  padding: 0.55rem 1.2rem;
+}
+
+.cart-head::before,
+.cart-head::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: var(--cart);
+  flex: none;
+}
+
+.cart-head h3 {
+  color: var(--cream);
+}
+
+.cart-body {
+  padding: 0.85rem 1.2rem 1rem;
+}
+
+.cart-body p {
+  margin: 0 0 0.5rem;
+}
+
+.cart-body p:last-child {
+  margin: 0;
+}
+
+.project-name {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+
+/* hover: border flashes to project neon */
+.cart:hover {
+  outline-color: var(--cart);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--cart) 25%, transparent);
+}
+
+
+/* ---------- CV ---------- */
+
+.cv-entry {
+  background: color-mix(in srgb, var(--panel) 40%, var(--deep));
+  border: 2px solid var(--rim);
+  outline: 2px solid var(--outline);
+  outline-offset: -4px;
+  box-shadow:
+    inset 2px 2px 0 rgba(109, 232, 229, 0.22),
+    inset -2px -2px 0 rgba(7, 18, 28, 0.85),
+    4px 4px 0 var(--rim);
+  padding: 0.85rem 1.1rem;
+  margin: 0 0 0.9rem;
+}
+
+.cv-grid {
+  display: block;
+}
+
+.cv-entry .role {
+  color: var(--aqua);
+}
+
+.cv-entry .period {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: rgba(109, 232, 229, 0.85);
+  margin: 0;
+}
+
+/* pixel-dot leader before period stamps */
+.cv-entry .period::before {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 2px;
+  background: var(--sky);
+  box-shadow:
+    4px 0 0 var(--sky),
+    8px 0 0 var(--sky);
+  margin-right: 12px;
+  vertical-align: 2px;
+  opacity: 0.55;
+}
+
+@media (min-width: 1024px) {
+  .cv-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 0 1.5rem;
+    align-items: start;
+  }
+
+  .cv-col--edu {
+    position: sticky;
+    top: 92px;
+  }
+
+  .cv-grid h2 {
+    margin-top: 0;
+  }
+}
+
+/* ---------- Contact menu ---------- */
+
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-list li {
+  margin: 0 0 0.6rem;
+}
+
+.contact-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-hud);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--panel) 40%, var(--deep));
+  border: 2px solid var(--outline);
+  box-shadow:
+    inset 2px 2px 0 rgba(109, 232, 229, 0.22),
+    inset -2px -2px 0 rgba(7, 18, 28, 0.85),
+    4px 4px 0 var(--rim);
+  padding: 0.7rem 0.9rem;
+}
+
+.contact-list a::before {
+  content: "\25B6";
+  color: var(--gold);
+  opacity: 0;
+  flex: none;
+}
+
+.contact-list a:hover,
+.contact-list a:focus-visible,
+.contact-list a.is-selected {
+  background: var(--panel-deep);
+  border-color: var(--gold);
+  color: var(--cream);
+}
+
+.contact-list a:hover::before,
+.contact-list a:focus-visible::before,
+.contact-list a.is-selected::before {
+  opacity: 1;
+  animation: blink 1s steps(1, end) infinite;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cream);
+  background: var(--panel);
+  border: 2px solid var(--outline);
+  box-shadow:
+    inset 2px 2px 0 rgba(109, 232, 229, 0.25),
+    inset -2px -2px 0 rgba(7, 18, 28, 0.8),
+    3px 3px 0 var(--rim);
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn:hover {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    inset 2px 2px 0 rgba(7, 18, 28, 0.8),
+    inset -2px -2px 0 rgba(109, 232, 229, 0.25);
+}
+
+/* Sound toggle (injected by main.js) */
+.snd-toggle {
+  position: fixed;
+  right: 0.9rem;
+  bottom: 0.9rem;
+  z-index: 120;
+  font-size: 0.6rem;
+  padding: 0.45rem 0.6rem;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  position: relative;
+  z-index: 5;
+  max-width: 880px;
+  margin: 2.25rem auto 0;
+  padding: 0.7rem 0 0;
+  border-top: 2px solid var(--outline);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.site-footer .copyright {
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: rgba(181, 245, 216, 0.85);
+}
+
+.site-footer .hint {
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: rgba(181, 245, 216, 0.5);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ---------- Boot overlay ---------- */
+
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 250ms steps(6, end);
+}
+
+.boot-overlay.boot-fading {
+  opacity: 0;
+}
+
+.boot-logo {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 5.5vw, 2.6rem);
+  color: var(--cream);
+  text-shadow:
+    3px 3px 0 var(--rim),
+    0 0 18px rgba(0, 217, 232, 0.35),
+    6px 6px 0 rgba(240, 44, 168, 0.4);
+  margin: 0;
+}
+
+.boot-sub {
+  font-family: var(--font-hud);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+  text-shadow: 0 0 6px rgba(0, 217, 232, 0.4);
+  margin: 0;
+}
+
+.boot-press {
+  font-family: var(--font-hud);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(255, 217, 26, 0.4);
+  margin: 1.25rem 0 0;
+  animation: blink 1s steps(1, end) infinite;
+}
+
+/* ---------- Chrome mode (Konami easter egg) ---------- */
+
+html.chrome-mode h1,
+html.chrome-mode h2,
+html.chrome-mode .hud-wordmark {
+  background: linear-gradient(
+    to bottom,
+    #d4d4dc 0%,
+    #ffffff 28%,
+    #d4d4dc 45%,
+    #88888f 62%,
+    #ffffff 82%,
+    #d4d4dc 100%
+  );
+  background-size: 100% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: chrome-shimmer 2.4s linear infinite;
+}
+
+html.chrome-mode h1 {
+  text-shadow: none;
+}
+
+@keyframes chrome-shimmer {
+  0% { background-position: 50% 0%; }
+  100% { background-position: 50% 300%; }
+}
+
+/* metallic panel borders + warm panel fill + slow sheen sweep */
+html.chrome-mode .cart,
+html.chrome-mode .panel,
+html.chrome-mode .cv-entry {
+  border-color: #C8CBD4;
+}
+
+html.chrome-mode .cart,
+html.chrome-mode .panel,
+html.chrome-mode .cv-entry {
+  background: linear-gradient(
+    color-mix(in srgb, var(--gold) 8%, var(--deep)),
+    color-mix(in srgb, var(--gold) 8%, var(--deep))
+  );
+}
+
+html.chrome-mode .cart::before,
+html.chrome-mode .panel::before,
+html.chrome-mode .cv-entry::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(255, 255, 255, 0.08) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 300% 300%;
+  animation: chrome-sheen 7s linear infinite;
+}
+
+html.chrome-mode .cart:hover::before,
+html.chrome-mode .panel:hover::before,
+html.chrome-mode .cv-entry:hover::before {
+  animation-play-state: paused;
+}
+
+html.chrome-mode .cart > *,
+html.chrome-mode .panel > *,
+html.chrome-mode .cv-entry > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes chrome-sheen {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 300%; }
+}
+
+/* body radial sheen goes gold — dark chamber lit by gold */
+html.chrome-mode body {
+  background:
+    radial-gradient(ellipse 65% 42% at 12% -8%, rgba(255, 217, 26, 0.14), transparent 62%),
+    radial-gradient(ellipse 65% 42% at 88% -8%, rgba(255, 181, 0, 0.12), transparent 62%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* slow gold glint band sliding across the page, under all content */
+html.chrome-mode body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2; /* above starfield (0), below content (5) */
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    rgba(255, 217, 26, 0) 0%,
+    rgba(255, 217, 26, 0.04) 35%,
+    rgba(255, 217, 26, 0.10) 50%,
+    rgba(255, 217, 26, 0.04) 65%,
+    rgba(255, 217, 26, 0) 100%
+  );
+  background-size: 300% 100%;
+  animation: gold-glint 9s linear infinite;
+}
+
+@keyframes gold-glint {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+/* scanlines: one notch beyond the current chrome bump */
+html.chrome-mode body::after {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.34) 0px,
+      rgba(0, 0, 0, 0.34) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.10) 0%,
+      rgba(0, 0, 0, 0) 18%,
+      rgba(0, 0, 0, 0) 82%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+}
+
+/* ---------- CRT power flash (unlock moment) ---------- */
+
+.chrome-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  background: #E8ECF4;
+  animation: crt-flash 180ms steps(2, end) 1 forwards;
+}
+
+@keyframes crt-flash {
+  0% {
+    opacity: 0.85;
+    background: #E8ECF4;
+  }
+  50% {
+    opacity: 0.7;
+    background: #9FE8EF;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- HUD toast ---------- */
+
+#hud-toast {
+  position: fixed;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 250;
+  pointer-events: none;
+}
+
+.toast {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  background: color-mix(in srgb, var(--panel) 40%, var(--deep));
+  border: 2px solid var(--outline);
+  box-shadow:
+    inset 2px 2px 0 rgba(109, 232, 229, 0.22),
+    inset -2px -2px 0 rgba(7, 18, 28, 0.85),
+    4px 4px 0 var(--rim);
+  padding: 0.6rem 1rem;
+  white-space: nowrap;
+  opacity: 1;
+}
+
+.toast--gold {
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(255, 217, 26, 0.35);
+  border-color: #C8CBD4;
+}
+
+.toast--cyan {
+  color: var(--cyan);
+}
+
+.toast-in {
+  animation: toast-pop 120ms steps(2, end) 1;
+}
+
+.toast-out {
+  animation: toast-blink 400ms steps(1, end) 1 forwards;
+}
+
+@keyframes toast-pop {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes toast-blink {
+  0%, 24% { opacity: 1; }
+  25%, 49% { opacity: 0; }
+  50%, 74% { opacity: 1; }
+  75%, 99% { opacity: 0; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* ---------- 404 (standalone palette preserved) ---------- */
+
+body[data-page="404"] main {
+  text-align: center;
+}
+
+.gameover-title {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: clamp(2rem, 8vw, 3.6rem);
+  letter-spacing: 0.06em;
+  color: var(--danger-hot);
+  text-shadow: 4px 4px 0 var(--deep);
+  margin: 2.5rem 0 1rem;
+  animation: blink 1.4s steps(1, end) infinite;
+}
+
+.gameover-sub {
+  font-family: var(--font-hud);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--cream);
+  margin: 0 0 2rem;
+}
+
+.countdown-line {
+  font-family: var(--font-hud);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--sky);
+  margin-top: 1.5rem;
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-press,
+  .gameover-title {
+    animation: none;
+  }
+
+  .hud-nav a:hover {
+    animation: none;
+  }
+
+  .contact-list a:hover::before,
+  .contact-list a:focus-visible::before,
+  .contact-list a.is-selected::before {
+    animation: none;
+  }
+
+  html.chrome-mode h1,
+  html.chrome-mode h2,
+  html.chrome-mode .hud-wordmark {
+    animation: none;
+    background-position: 50% 45%;
+  }
+
+  html.chrome-mode .cart::before,
+  html.chrome-mode .panel::before,
+  html.chrome-mode .cv-entry::before {
+    animation: none;
+  }
+
+  /* static gold glint band, no slide */
+  html.chrome-mode body::before {
+    animation: none;
+    background-position: 50% 0%;
+  }
+
+  .chrome-flash {
+    display: none;
+  }
+
+  .toast-in,
+  .toast-out {
+    animation: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem 0.9rem 2.5rem;
+  }
+
+  main {
+    margin-top: 1.25rem;
+  }
+
+  .hud-bar {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+  }
+
+  .hud-left {
+    gap: 0.35rem;
+  }
+
+  /* XP bar hides on small screens */
+  .hud-right {
+    display: none;
+  }
+
+  .hud-nav {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+
+  /* keep footer hint clear of the fixed SND toggle */
+  .site-footer {
+    padding-bottom: 2.75rem;
+    padding-right: 6.5rem;
+  }
+
+  .hud-nav a {
+    font-size: 0.75rem;
+  }
+
+  .cv-col--edu {
+    position: static;
+  }
+}
