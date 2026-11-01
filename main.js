@@ -1,7 +1,7 @@
 /* main.js — Genesis site behaviors.
    Boot overlay, WebAudio sfx (no files), sound toggle, HUD (XP ladder),
    starfield injection, arrow-key cursors (nav + contact menu),
-   starfield steering, Konami chrome mode, 404 countdown.
+   starfield steering, reading list filters, Konami chrome mode, 404 countdown.
    Switches: ?noboot (skip boot), ?nostars (skip starfield). */
 (() => {
   "use strict";
@@ -280,7 +280,11 @@
   }
 
 
+  // arrow keys and WASD belong to the field while typing or picking an option
+  const inField = (e) => e.target instanceof Element && e.target.closest("input, select, textarea");
+
   window.addEventListener("keydown", (e) => {
+    if (inField(e)) return;
     // once armed in a mode, stay in that mode until page nav
     if (!navArmed) {
       if (
@@ -343,7 +347,7 @@
 
   window.addEventListener("keydown", (e) => {
     // don't hijack steering when the arrow-key menu/nav cursor is armed
-    if (navArmed) return;
+    if (navArmed || inField(e)) return;
     const k = e.key.toLowerCase();
     const map = {
       arrowup: [0, -14],
@@ -360,6 +364,122 @@
     if (!steerRepeat()) return;
     if (window.__starfield) window.__starfield.nudge(v[0], v[1]);
   });
+
+  /* ---------------- Reading list: search, filter, sort ---------------- */
+
+  const reading = $("[data-reading]");
+  if (reading) {
+    const columns = JSON.parse($(".reading-columns", reading).textContent);
+    const books = Array.from(reading.querySelectorAll(".book"));
+    const list = $(".book-list", reading);
+    const count = $(".reading-count", reading);
+    const val = (book, key) => book.getAttribute("data-" + key) || "";
+    const params = new URLSearchParams(window.location.search);
+    const filters = columns.filter((c) => c.kind === "filter");
+    const sortable = columns.filter((c, i) => i < 2 || c.kind !== "text");
+    const defaultSort = columns.find((c) => c.kind === "date");
+
+    const controls = document.createElement("div");
+    controls.className = "reading-controls";
+
+    function field(label, control) {
+      const wrap = document.createElement("label");
+      wrap.className = "field";
+      const span = document.createElement("span");
+      span.textContent = label;
+      wrap.append(span, control);
+      controls.appendChild(wrap);
+      return control;
+    }
+
+    function selectOf(options, value) {
+      const sel = document.createElement("select");
+      for (const [v, text] of options) sel.add(new Option(text, v));
+      sel.value = options.some(([v]) => v === value) ? value : options[0][0];
+      return sel;
+    }
+
+    const search = field("Search", document.createElement("input"));
+    search.type = "search";
+    search.placeholder = "Title, author, anything";
+    search.value = params.get("q") || "";
+
+    const filterEls = filters.map((c) => {
+      const values = [...new Set(books.map((b) => val(b, c.key)).filter(Boolean))].sort();
+      const sel = selectOf([["", "All"], ...values.map((v) => [v, v])], params.get(c.key) || "");
+      return [c, field(c.label, sel)];
+    });
+
+    const sortEl = field(
+      "Sort by",
+      selectOf(sortable.map((c) => [c.key, c.label]), params.get("sort") || (defaultSort ? defaultSort.key : "")),
+    );
+    const dirEl = document.createElement("button");
+    dirEl.type = "button";
+    dirEl.className = "btn reading-dir";
+    let desc = params.has("dir") ? params.get("dir") === "desc" : !!defaultSort;
+    controls.appendChild(dirEl);
+
+    reading.insertBefore(controls, count);
+
+    const empty = document.createElement("p");
+    empty.className = "reading-empty";
+    empty.textContent = "NO MATCHES. TRY ANOTHER FILTER.";
+    reading.appendChild(empty);
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      const active = filterEls.filter(([, sel]) => sel.value);
+      const key = sortEl.value;
+      const kind = (columns.find((c) => c.key === key) || {}).kind;
+      dirEl.textContent = desc ? "\u25BC DESC" : "\u25B2 ASC";
+      dirEl.setAttribute("aria-label", desc ? "Sort descending" : "Sort ascending");
+
+      const shown = books.filter((b) => {
+        if (active.some(([c, sel]) => val(b, c.key) !== sel.value)) return false;
+        return !q || columns.some((c) => val(b, c.key).toLowerCase().includes(q));
+      });
+
+      // books missing the sort value always go last
+      shown.sort((a, b) => {
+        const x = val(a, key);
+        const y = val(b, key);
+        if (!x || !y) return (x ? 0 : 1) - (y ? 0 : 1);
+        const cmp = kind === "number" ? x - y : x.localeCompare(y, undefined, { sensitivity: "base" });
+        return desc ? -cmp : cmp;
+      });
+
+      books.forEach((b) => (b.hidden = true));
+      for (const b of shown) {
+        b.hidden = false;
+        list.appendChild(b);
+      }
+      count.textContent = shown.length === books.length
+        ? books.length + " BOOKS"
+        : "SHOWING " + shown.length + " OF " + books.length;
+      empty.hidden = shown.length > 0;
+
+      // keep unrelated switches like ?nostars
+      const next = new URLSearchParams(window.location.search);
+      for (const k of ["q", "sort", "dir", ...filters.map((c) => c.key)]) next.delete(k);
+      if (q) next.set("q", search.value.trim());
+      for (const [c, sel] of active) next.set(c.key, sel.value);
+      if (key !== (defaultSort && defaultSort.key)) next.set("sort", key);
+      if (desc !== !!defaultSort || next.has("sort")) next.set("dir", desc ? "desc" : "asc");
+      const qs = next.toString();
+      history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : ""));
+    }
+
+    search.addEventListener("input", apply);
+    for (const [, sel] of filterEls) sel.addEventListener("change", () => (sfx("blip"), apply()));
+    sortEl.addEventListener("change", () => (sfx("blip"), apply()));
+    dirEl.addEventListener("click", () => {
+      desc = !desc;
+      sfx("blip");
+      apply();
+    });
+    apply();
+  }
 
   /* ---------------- Konami code → chrome mode ---------------- */
 

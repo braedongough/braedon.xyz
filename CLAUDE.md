@@ -13,6 +13,7 @@ Personal website for Braedon Gough. A static site with no build step, styled lik
 ```
 index.html        About / landing page
 projects.html     Project list (cartridge panels)
+reading.html      Reading list, generated from a Google Sheet (see below)
 cv.html           Experience and education
 contact.html      Contact links (arrow-key selectable menu)
 404.html          "Game Over" page with auto-continue countdown
@@ -22,6 +23,8 @@ starfield.js      Parallax starfield canvas, loaded by main.js
 fonts/            Silkscreen pixel font (woff2 + license)
 core-pallet.md    Reference palette and color philosophy
 serve.ts          Bun dev server
+scripts/          sync-reading.ts (Google Sheet → reading.html)
+.github/workflows sync-reading.yml (weekly sync)
 favicon.png       Favicon
 ```
 
@@ -71,8 +74,16 @@ All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every p
 - Arrow-key cursors for the nav and `data-select-menu` lists. Arrow keys and WASD also steer the starfield.
 - Konami code (↑↑↓↓←→←→BA) toggles "chrome mode".
 - 404 countdown back to `/`.
+- Reading list search, dropdown filters, and sort, with state kept in the URL.
 - Query switches: `?noboot` skips the boot overlay, `?nostars` skips the starfield.
 - Respects `prefers-reduced-motion`. The starfield renders one static frame, and animations are disabled in CSS.
+
+## Reading list sync
+
+- `scripts/sync-reading.ts` (`bun run sync:reading`) reads the "Reading List" tab of a private Google Sheet with a service account key in `GOOGLE_SERVICE_ACCOUNT_KEY`. It has no dependencies; it signs the OAuth JWT with Web Crypto.
+- It rewrites only the block between `<!-- reading-list:start -->` and `<!-- reading-list:end -->` in `reading.html`. Don't hand-edit that block.
+- Every sheet column is rendered, except headers starting with `_`. The first two columns are the title and byline. Column behavior is inferred from values: dates become the default sort (newest first), short repeating values become filter dropdowns and tags, and everything else is searchable text.
+- `.github/workflows/sync-reading.yml` runs it every Monday at 06:00 UTC (and on demand) and commits `reading.html` only when it changed. It needs the `GOOGLE_SERVICE_ACCOUNT_KEY` repo secret.
 
 ## Conventions
 
