@@ -17,7 +17,6 @@
   if (!ctx) return;
 
   const NEON = ["#00D9E8", "#F02CA8", "#91F26A"];
-  const NEON_GOLD = ["#FFD91A", "#FFB500", "#FFF7D0"];
   const TWINKLE = [0.55, 0.75, 0.92, 1.0];
   /* layers: far → near. share = fraction of star count */
   const LAYERS = [
@@ -25,25 +24,6 @@
     { speed: 20, mult: 0.65, size: 1, share: 0.3 },
     { speed: 38, mult: 1, size: 2, share: 0.15 },
   ];
-
-  let palette = NEON;
-
-  // gold-family stars while chrome-mode is active; standard set otherwise
-  new MutationObserver(() => {
-    const gold = document.documentElement.classList.contains("chrome-mode");
-    if ((palette === NEON_GOLD) !== gold) {
-      palette = gold ? NEON_GOLD : NEON;
-      recolor(palette);
-    }
-  }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-
-  function recolor(set) {
-    for (const s of stars) {
-      if (!s.neon) continue;
-      s.color = set ? set[(Math.random() * set.length) | 0] : s.color;
-    }
-    if (REDUCED) draw(0);
-  }
 
   let W = 0;
   let H = 0;
@@ -78,7 +58,7 @@
         y: Math.random() * H,
         neon,
         color: neon
-          ? palette[(Math.random() * palette.length) | 0]
+          ? NEON[(Math.random() * NEON.length) | 0]
           : Math.random() < 0.25
             ? "#FFF7D0"
             : "#FFFFFF",

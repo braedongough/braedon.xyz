@@ -1,7 +1,7 @@
 /* main.js — Genesis site behaviors.
-   WebAudio sfx (no files), sound toggle, HUD (XP ladder),
+   HUD,
    starfield injection, arrow-key cursors (nav + contact menu),
-   starfield steering, reading list filters, Konami chrome mode, 404 countdown.
+   starfield steering, reading list filters, Konami flames, 404 countdown.
    Switch: ?nostars (skip starfield). */
 (() => {
   "use strict";
@@ -10,74 +10,6 @@
   const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const on404 = document.body.dataset.page === "404";
 
-  /* ---------------- Audio ---------------- */
-
-  let audioCtx = null;
-  let soundOn = localStorage.getItem("snd") === "on";
-  let lastTick = 0;
-
-  function getCtx() {
-    if (!audioCtx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
-      audioCtx = new AC();
-    }
-    if (audioCtx.state === "suspended") audioCtx.resume();
-    return audioCtx;
-  }
-
-  function tone(freq, start, dur, gainPeak, type = "square") {
-    const ctx = getCtx();
-    if (!ctx) return;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type;
-    osc.frequency.value = freq;
-    gain.gain.setValueAtTime(gainPeak, ctx.currentTime + start);
-    gain.gain.exponentialRampToValueAtTime(0.0008, ctx.currentTime + start + dur);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(ctx.currentTime + start);
-    osc.stop(ctx.currentTime + start + dur + 0.02);
-  }
-
-  /* NES-style LEVEL UP jingle. Square-wave only, ≤1.6s, gain ≤0.06.
-     Run: E5 B5 E6 G6 B6 G6 (~90ms each) → land G6 (320ms) → grace E7 (120ms).
-     E minor run resolving to high G — reads as "LEVEL UP". */
-  let jingleUntil = 0;
-
-  function jingle() {
-    if (!soundOn || !getCtx()) return;
-    const now = performance.now();
-    if (now < jingleUntil) return; // don't stack
-    jingleUntil = now + 1600;
-    const run = [
-      [659.25, 0.0], // E5
-      [987.77, 0.09], // B5
-      [1318.51, 0.18], // E6
-      [1567.98, 0.27], // G6
-      [1975.53, 0.36], // B6
-      [1567.98, 0.45], // G6
-    ];
-    for (const [f, t] of run) tone(f, t, 0.09, 0.055);
-    tone(1567.98, 0.54, 0.32, 0.06); // sustained high G
-    tone(2637.02, 0.62, 0.12, 0.05); // grace octave flourish E7
-  }
-
-  function sfx(name) {
-    if (!soundOn || !getCtx()) return;
-    if (name === "blip") {
-      tone(880, 0, 0.06, 0.05);
-    } else if (name === "unlock") {
-      jingle();
-    } else if (name === "tick") {
-      const now = performance.now();
-      if (now - lastTick < 80) return; // rate limit
-      lastTick = now;
-      tone(1200, 0, 0.02, 0.02);
-    } else if (name === "beep") {
-      tone(440, 0, 0.18, 0.06);
-    }
-  }
   /* ---------------- Starfield (every page incl. 404) ---------------- */
 
   if (!new URLSearchParams(window.location.search).has("nostars")) {
@@ -86,23 +18,6 @@
     sf.defer = true;
     document.head.appendChild(sf);
   }
-
-  /* ---------------- Sound toggle button ---------------- */
-
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "btn snd-toggle";
-  btn.textContent = soundOn ? "SND ON" : "SND OFF";
-  btn.setAttribute("aria-pressed", String(soundOn));
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    soundOn = !soundOn;
-    localStorage.setItem("snd", soundOn ? "on" : "off");
-    btn.textContent = soundOn ? "SND ON" : "SND OFF";
-    btn.setAttribute("aria-pressed", String(soundOn));
-    if (soundOn) sfx("blip");
-  });
-  document.body.appendChild(btn);
 
   /* ---------------- HUD chrome (every page except 404) ---------------- */
 
@@ -128,56 +43,10 @@
     const ul = document.createElement("ul");
     ul.className = "hud-nav";
     for (const a of links) ul.appendChild(a.parentElement); // move <li>
-    ul.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("mouseenter", () => sfx("tick"));
-    });
 
-    // right: LV + XP bar
-    const right = document.createElement("div");
-    right.className = "hud-right";
-    right.setAttribute("aria-hidden", "true");
-    right.innerHTML =
-      '<span class="hud-lv" id="hud-lv">LV.1</span>' +
-      '<span class="xpbar"><span class="xpfill" id="hud-fill"></span></span>';
-
-    bar.append(left, ul, right);
+    bar.append(left, ul);
     hud.appendChild(bar);
     navEl.replaceWith(hud);
-
-    const fillEl = $("#hud-fill");
-    const lvEl = $("#hud-lv");
-    let queued = false;
-
-    function updateHud() {
-      queued = false;
-      const doc = document.scrollingElement;
-      const scrollable = Math.max(0, doc.scrollHeight - window.innerHeight);
-      const depth = scrollable > 0 ? Math.min(1, Math.max(0, doc.scrollTop / scrollable)) : 1;
-      if (fillEl) fillEl.style.transform = "scaleX(" + depth.toFixed(4) + ")";
-      if (lvEl) lvEl.textContent = "LV." + (1 + Math.floor(depth * 9));
-    }
-
-    function scheduleHud() {
-      if (queued) return;
-      queued = true;
-      // rAF stalls on hidden/occluded documents (background tabs, some headless
-      // contexts) — guarantee the HUD still settles with a fallback timer.
-      let ran = false;
-      const run = () => {
-        if (ran) return;
-        ran = true;
-        updateHud();
-      };
-      if (typeof requestAnimationFrame === "function") {
-        requestAnimationFrame(run);
-        setTimeout(run, 60);
-      } else {
-        setTimeout(updateHud, 0);
-      }
-    }
-
-    window.addEventListener("scroll", scheduleHud, { passive: true });
-    updateHud();
   }
 
   /* ---------------- 404 countdown ---------------- */
@@ -186,7 +55,6 @@
   if (countdownEl && on404) {
     let n = 10;
     let cancelled = false;
-    let beepedAt5 = false;
     const render = () => (countdownEl.textContent = "AUTO-CONTINUE IN " + n);
     render();
     const timer = setInterval(() => {
@@ -196,10 +64,6 @@
         clearInterval(timer);
         window.location.href = "/";
         return;
-      }
-      if (n === 5) {
-        beepedAt5 = true;
-        sfx("beep");
       }
       render();
     }, 1000);
@@ -231,7 +95,6 @@
     const link = arr[navIndex];
     link.classList.add("is-selected");
     link.focus({ preventScroll: true });
-    sfx("blip");
   }
 
 
@@ -285,7 +148,6 @@
     navIndex = arr.indexOf(target);
     target.classList.add("is-selected");
     target.focus({ preventScroll: true });
-    sfx("blip");
   }
 
   /* ---------------- Starfield steering (arrows/WASD nudge drift) ---------------- */
@@ -426,17 +288,16 @@
     }
 
     search.addEventListener("input", apply);
-    for (const [, sel] of filterEls) sel.addEventListener("change", () => (sfx("blip"), apply()));
-    sortEl.addEventListener("change", () => (sfx("blip"), apply()));
+    for (const [, sel] of filterEls) sel.addEventListener("change", apply);
+    sortEl.addEventListener("change", apply);
     dirEl.addEventListener("click", () => {
       desc = !desc;
-      sfx("blip");
       apply();
     });
     apply();
   }
 
-  /* ---------------- Konami code → chrome mode ---------------- */
+  /* ---------------- Konami code → pixel flames ---------------- */
 
   const KONAMI = [
     "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
@@ -464,33 +325,65 @@
     toastTimer = setTimeout(() => msg.classList.add("toast-out"), tone === "gold" ? 1600 : 800);
   }
 
-  function chromeFlash() {
-    if (REDUCED) return;
-    const el = document.createElement("div");
-    el.className = "chrome-flash";
-    document.body.appendChild(el);
-    el.addEventListener("animationend", () => el.remove(), { once: true });
-    setTimeout(() => el.remove(), 400); // safety net
-  }
+  // Doom-style pixel fire rising from the bottom edge, burns out on its own.
+  function flames() {
+    if (REDUCED || $(".konami-fire")) return;
+    const CELL = 6; // CSS px per fire pixel
+    const MAX = 36;
+    const css = getComputedStyle(document.documentElement);
+    const rgb = (name) => {
+      const hex = css.getPropertyValue(name).trim().slice(1);
+      return [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    };
+    const palette = [null, ...["--magenta", "--danger", "--danger-hot", "--gold-deep", "--gold", "--cream"].map(rgb)];
+    const cols = Math.ceil(window.innerWidth / CELL);
+    const rows = Math.ceil(window.innerHeight / CELL);
+    const heat = new Uint8Array(cols * rows);
 
-  function setChrome(on, { silent = false } = {}) {
-    const html = document.documentElement;
-    html.classList.toggle("chrome-mode", on);
-    sessionStorage.setItem("chrome", on ? "1" : "");
-    if (silent) return;
-    if (on) {
-      chromeFlash();
-      showToast("\u2605 CHEAT ACTIVATED \u2605", "gold");
-      sfx("unlock");
-    } else {
-      showToast("CHROME OFF", "cyan");
-      sfx("blip");
+    const canvas = document.createElement("canvas");
+    canvas.className = "konami-fire";
+    canvas.width = cols;
+    canvas.height = rows;
+    canvas.style.height = rows * CELL + "px";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const img = ctx.createImageData(cols, rows);
+
+    const start = performance.now();
+    function frame(now) {
+      // fuel: full blaze for 2.5s, then the base cools and the fire dies down
+      const t = now - start;
+      const fuel = t < 2500 ? MAX : Math.max(0, MAX - Math.floor((t - 2500) / 40));
+      const base = (rows - 1) * cols;
+      for (let x = 0; x < cols; x++) heat[base + x] = fuel && Math.random() < 0.85 ? fuel : fuel >> 1;
+      for (let y = 1; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const src = y * cols + x;
+          const decay = (Math.random() * 4) | 0;
+          const dst = src - cols - decay + 1; // drift sideways as it rises
+          heat[Math.max(0, Math.min(heat.length - 1, dst))] = Math.max(0, heat[src] - (decay & 1));
+        }
+      }
+      let alive = false;
+      for (let i = 0; i < heat.length; i++) {
+        const c = palette[Math.ceil((heat[i] / MAX) * (palette.length - 1))];
+        const o = i * 4;
+        if (c) {
+          alive = true;
+          img.data[o] = c[0];
+          img.data[o + 1] = c[1];
+          img.data[o + 2] = c[2];
+          img.data[o + 3] = 255;
+        } else {
+          img.data[o + 3] = 0;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      if (alive || fuel) requestAnimationFrame(frame);
+      else canvas.remove();
     }
-  }
-
-  // already-unlocked state: apply silently, no fanfare
-  if (sessionStorage.getItem("chrome") === "1") {
-    document.documentElement.classList.add("chrome-mode");
+    requestAnimationFrame(frame);
   }
 
   const seq = [];
@@ -501,7 +394,8 @@
     if (seq.length > KONAMI.length) seq.shift();
     if (seq.length === KONAMI.length && KONAMI.every((k, i) => k === seq[i])) {
       seq.length = 0;
-      setChrome(!document.documentElement.classList.contains("chrome-mode"));
+      flames();
+      showToast("\u2605 CHEAT ACTIVATED \u2605", "gold");
     }
   });
 })();

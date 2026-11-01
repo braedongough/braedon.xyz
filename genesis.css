@@ -19,7 +19,6 @@
   --green: #35D44A;
   --danger: #E52D12;
   --danger-hot: #FF4B00;
-  --pink: #F02CA8; /* alias: chrome mode */
 
   --sky: #6DE8E5;
   --aqua: #B5F5D8;
@@ -197,7 +196,7 @@ hr {
   padding: 0;
   display: flex;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 0.1rem;
 }
@@ -239,53 +238,6 @@ hr {
   outline: 2px solid var(--cream);
   outline-offset: -2px;
   color: var(--gold);
-}
-
-.hud-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-hud);
-  white-space: nowrap;
-}
-
-.hud-lv {
-  font-size: 0.65rem;
-  color: var(--lime);
-  text-shadow: 0 0 6px rgba(145, 242, 106, 0.35);
-}
-
-.xpbar {
-  position: relative;
-  width: 130px;
-  height: 10px;
-  background: var(--deep);
-  border: 2px solid var(--outline);
-  overflow: hidden;
-}
-
-.xpfill {
-  width: 100%;
-  height: 100%;
-  background: var(--cyan);
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-  box-shadow: 0 0 8px rgba(0, 217, 232, 0.6);
-}
-
-/* segment ticks over the fill */
-.xpbar::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to right,
-    transparent 0,
-    transparent 11px,
-    var(--deep) 11px,
-    var(--deep) 13px
-  );
 }
 
 @keyframes glitch {
@@ -463,6 +415,8 @@ a:hover {
 
 .cv-grid {
   display: block;
+  margin-top: 2rem;
+  scroll-margin-top: 6rem;
 }
 
 .cv-entry .role {
@@ -763,16 +717,6 @@ a:hover {
     inset -2px -2px 0 rgba(109, 232, 229, 0.25);
 }
 
-/* Sound toggle (injected by main.js) */
-.snd-toggle {
-  position: fixed;
-  right: 0.9rem;
-  bottom: 0.9rem;
-  z-index: 120;
-  font-size: 0.6rem;
-  padding: 0.45rem 0.6rem;
-}
-
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -809,165 +753,16 @@ a:hover {
   50% { opacity: 0; }
 }
 
-/* ---------- Chrome mode (Konami easter egg) ---------- */
+/* ---------- Konami fire (canvas injected by main.js) ---------- */
 
-html.chrome-mode h1,
-html.chrome-mode h2,
-html.chrome-mode .hud-wordmark {
-  background: linear-gradient(
-    to bottom,
-    #d4d4dc 0%,
-    #ffffff 28%,
-    #d4d4dc 45%,
-    #88888f 62%,
-    #ffffff 82%,
-    #d4d4dc 100%
-  );
-  background-size: 100% 300%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: chrome-shimmer 2.4s linear infinite;
-}
-
-html.chrome-mode h1 {
-  text-shadow: none;
-}
-
-@keyframes chrome-shimmer {
-  0% { background-position: 50% 0%; }
-  100% { background-position: 50% 300%; }
-}
-
-/* metallic panel borders + warm panel fill + slow sheen sweep */
-html.chrome-mode .cart,
-html.chrome-mode .panel,
-html.chrome-mode .cv-entry {
-  border-color: #C8CBD4;
-}
-
-html.chrome-mode .cart,
-html.chrome-mode .panel,
-html.chrome-mode .cv-entry {
-  background: linear-gradient(
-    color-mix(in srgb, var(--gold) 8%, var(--deep)),
-    color-mix(in srgb, var(--gold) 8%, var(--deep))
-  );
-}
-
-html.chrome-mode .cart::before,
-html.chrome-mode .panel::before,
-html.chrome-mode .cv-entry::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.08) 45%,
-    rgba(255, 255, 255, 0.08) 55%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 300% 300%;
-  animation: chrome-sheen 7s linear infinite;
-}
-
-html.chrome-mode .cart:hover::before,
-html.chrome-mode .panel:hover::before,
-html.chrome-mode .cv-entry:hover::before {
-  animation-play-state: paused;
-}
-
-html.chrome-mode .cart > *,
-html.chrome-mode .panel > *,
-html.chrome-mode .cv-entry > * {
-  position: relative;
-  z-index: 1;
-}
-
-@keyframes chrome-sheen {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 300% 300%; }
-}
-
-/* body radial sheen goes gold — dark chamber lit by gold */
-html.chrome-mode body {
-  background:
-    radial-gradient(ellipse 65% 42% at 12% -8%, rgba(255, 217, 26, 0.14), transparent 62%),
-    radial-gradient(ellipse 65% 42% at 88% -8%, rgba(255, 181, 0, 0.12), transparent 62%),
-    var(--bg);
-  background-attachment: fixed;
-}
-
-/* slow gold glint band sliding across the page, under all content */
-html.chrome-mode body::before {
-  content: "";
+.konami-fire {
   position: fixed;
-  inset: 0;
-  z-index: 2; /* above starfield (0), below content (5) */
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: 250;
   pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    rgba(255, 217, 26, 0) 0%,
-    rgba(255, 217, 26, 0.04) 35%,
-    rgba(255, 217, 26, 0.10) 50%,
-    rgba(255, 217, 26, 0.04) 65%,
-    rgba(255, 217, 26, 0) 100%
-  );
-  background-size: 300% 100%;
-  animation: gold-glint 9s linear infinite;
-}
-
-@keyframes gold-glint {
-  0% { background-position: 100% 0%; }
-  100% { background-position: -100% 0%; }
-}
-
-/* scanlines: one notch beyond the current chrome bump */
-html.chrome-mode body::after {
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.34) 0px,
-      rgba(0, 0, 0, 0.34) 1px,
-      transparent 1px,
-      transparent 3px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.10) 0%,
-      rgba(0, 0, 0, 0) 18%,
-      rgba(0, 0, 0, 0) 82%,
-      rgba(0, 0, 0, 0.12) 100%
-    );
-}
-
-/* ---------- CRT power flash (unlock moment) ---------- */
-
-.chrome-flash {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  pointer-events: none;
-  background: #E8ECF4;
-  animation: crt-flash 180ms steps(2, end) 1 forwards;
-}
-
-@keyframes crt-flash {
-  0% {
-    opacity: 0.85;
-    background: #E8ECF4;
-  }
-  50% {
-    opacity: 0.7;
-    background: #9FE8EF;
-  }
-  100% {
-    opacity: 0;
-  }
+  image-rendering: pixelated;
 }
 
 /* ---------- HUD toast ---------- */
@@ -1001,10 +796,6 @@ html.chrome-mode body::after {
   color: var(--gold);
   text-shadow: 0 0 8px rgba(255, 217, 26, 0.35);
   border-color: #C8CBD4;
-}
-
-.toast--cyan {
-  color: var(--cyan);
 }
 
 .toast-in {
@@ -1082,29 +873,6 @@ body[data-page="404"] main {
     animation: none;
   }
 
-  html.chrome-mode h1,
-  html.chrome-mode h2,
-  html.chrome-mode .hud-wordmark {
-    animation: none;
-    background-position: 50% 45%;
-  }
-
-  html.chrome-mode .cart::before,
-  html.chrome-mode .panel::before,
-  html.chrome-mode .cv-entry::before {
-    animation: none;
-  }
-
-  /* static gold glint band, no slide */
-  html.chrome-mode body::before {
-    animation: none;
-    background-position: 50% 0%;
-  }
-
-  .chrome-flash {
-    display: none;
-  }
-
   .toast-in,
   .toast-out {
     animation: none;
@@ -1131,24 +899,15 @@ body[data-page="404"] main {
     gap: 0.35rem;
   }
 
-  /* XP bar hides on small screens */
-  .hud-right {
-    display: none;
-  }
-
   .hud-nav {
     flex-basis: 100%;
-    justify-content: flex-start;
-  }
-
-  /* keep footer hint clear of the fixed SND toggle */
-  .site-footer {
-    padding-bottom: 2.75rem;
-    padding-right: 6.5rem;
+    justify-content: space-between;
   }
 
   .hud-nav a {
     font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.25rem;
   }
 
   .cv-col--edu {

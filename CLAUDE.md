@@ -14,7 +14,7 @@ Personal website for Braedon Gough. A static site with no build step, styled lik
 index.html        About / landing page
 projects.html     Project list (cartridge panels)
 reading.html      Reading list, generated from a Google Sheet (see below)
-cv.html           Experience and education
+cv.html           Redirect to /#cv (the CV lives on the About page)
 contact.html      Contact links (arrow-key selectable menu)
 404.html          "Game Over" page with auto-continue countdown
 genesis.css       Single shared stylesheet
@@ -61,7 +61,7 @@ Clean, glossy 16-bit look: near-black background, neon accents, hard edges. See 
 - Each page's `<main>` starts directly with its `<h1>`.
 - Every page has the same `site-footer` with the copyright and the Konami-code hint.
 - Projects are `.cart` panels with a color modifier (`cart--cyan`, `cart--magenta`, `cart--lime`).
-- CV uses `.cv-grid` with `.cv-col` sections of `.cv-entry` items (`h3`, `.role`, `.period`).
+- The CV is on the About page (`index.html`, `#cv`) and uses `.cv-grid` with `.cv-col` sections of `.cv-entry` items (`h3`, `.role`, `.period`).
 - Lists marked `data-select-menu` get arrow-key cursor navigation.
 - `genesis.css` and `main.js` are organized into commented sections (`/* ---------- Name ---------- */`). Add new rules to the matching section.
 
@@ -69,10 +69,9 @@ Clean, glossy 16-bit look: near-black background, neon accents, hard edges. See 
 
 All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every page:
 
-- WebAudio sound effects (generated, no audio files), and a sound toggle saved in `localStorage`.
 - HUD chrome built from the page's `<nav>`.
 - Arrow-key cursors for the nav and `data-select-menu` lists. Arrow keys and WASD also steer the starfield.
-- Konami code (↑↑↓↓←→←→BA) toggles "chrome mode".
+- Konami code (↑↑↓↓←→←→BA) sets off a burst of pixel flames from the bottom of the screen (skipped with reduced motion).
 - 404 countdown back to `/`.
 - Reading list search, dropdown filters, and sort, with state kept in the URL.
 - Query switch: `?nostars` skips the starfield.
@@ -88,6 +87,7 @@ All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every p
 ## Conventions
 
 - Keep it minimal. No new dependencies, build steps, or unnecessary wrappers.
+- The site never plays sound.
 - One stylesheet (`genesis.css`) and one behavior script (`main.js`, plus `starfield.js`).
 - Pages must stay readable without JS. JS only adds chrome and effects.
 - When adding a page, copy an existing page's `<head>`, nav, and footer exactly, and add the link to the nav on every page.
