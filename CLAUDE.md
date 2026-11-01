@@ -69,13 +69,13 @@ Clean, glossy 16-bit look: near-black background, neon accents, hard edges. See 
 
 All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every page:
 
-- Boot overlay on first load, WebAudio sound effects (generated, no audio files), and a sound toggle saved in `localStorage`.
+- WebAudio sound effects (generated, no audio files), and a sound toggle saved in `localStorage`.
 - HUD chrome built from the page's `<nav>`.
 - Arrow-key cursors for the nav and `data-select-menu` lists. Arrow keys and WASD also steer the starfield.
 - Konami code (↑↑↓↓←→←→BA) toggles "chrome mode".
 - 404 countdown back to `/`.
 - Reading list search, dropdown filters, and sort, with state kept in the URL.
-- Query switches: `?noboot` skips the boot overlay, `?nostars` skips the starfield.
+- Query switch: `?nostars` skips the starfield.
 - Respects `prefers-reduced-motion`. The starfield renders one static frame, and animations are disabled in CSS.
 
 ## Reading list sync
@@ -91,6 +91,7 @@ All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every p
 - One stylesheet (`genesis.css`) and one behavior script (`main.js`, plus `starfield.js`).
 - Pages must stay readable without JS. JS only adds chrome and effects.
 - When adding a page, copy an existing page's `<head>`, nav, and footer exactly, and add the link to the nav on every page.
+- Pages load `/genesis.css?v=N` and `/main.js?v=N`. GitHub Pages lets browsers cache assets for 10 minutes, so when a change to either file must ship together with HTML changes, bump `N` on every page (including `404.html`).
 
 ## Amp orbs
 

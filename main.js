@@ -1,8 +1,8 @@
 /* main.js — Genesis site behaviors.
-   Boot overlay, WebAudio sfx (no files), sound toggle, HUD (XP ladder),
+   WebAudio sfx (no files), sound toggle, HUD (XP ladder),
    starfield injection, arrow-key cursors (nav + contact menu),
    starfield steering, reading list filters, Konami chrome mode, 404 countdown.
-   Switches: ?noboot (skip boot), ?nostars (skip starfield). */
+   Switch: ?nostars (skip starfield). */
 (() => {
   "use strict";
 
@@ -65,10 +65,7 @@
 
   function sfx(name) {
     if (!soundOn || !getCtx()) return;
-    if (name === "chime") {
-      tone(659.25, 0, 0.09, 0.06); // E5
-      tone(987.77, 0.1, 0.12, 0.06); // B5
-    } else if (name === "blip") {
+    if (name === "blip") {
       tone(880, 0, 0.06, 0.05);
     } else if (name === "unlock") {
       jingle();
@@ -181,48 +178,6 @@
 
     window.addEventListener("scroll", scheduleHud, { passive: true });
     updateHud();
-  }
-
-  /* ---------------- Boot overlay ---------------- */
-
-  const skipBoot =
-    new URLSearchParams(window.location.search).has("noboot") ||
-    sessionStorage.getItem("booted") === "1";
-
-  function dismissBoot(overlay) {
-    if (!overlay.isConnected) return;
-    sfx("chime");
-    overlay.classList.add("boot-fading");
-    const delay = REDUCED ? 150 : 250;
-    setTimeout(() => overlay.remove(), delay);
-    sessionStorage.setItem("booted", "1");
-    window.removeEventListener("keydown", onBootKey);
-    window.removeEventListener("click", onBootClick);
-  }
-
-  function onBootKey(e) {
-    const overlay = $("#boot-overlay");
-    if (overlay) {
-      dismissBoot(overlay);
-    }
-  }
-
-  function onBootClick() {
-    const overlay = $("#boot-overlay");
-    if (overlay) dismissBoot(overlay);
-  }
-
-  if (!skipBoot) {
-    const overlay = document.createElement("div");
-    overlay.id = "boot-overlay";
-    overlay.className = "boot-overlay";
-    overlay.innerHTML =
-      '<p class="boot-logo">BRAEDON.XYZ</p>' +
-      '<p class="boot-sub">16-BIT // SOFTWARE ENGINEER // COPENHAGEN</p>' +
-      '<p class="boot-press">PRESS START</p>';
-    document.body.appendChild(overlay);
-    window.addEventListener("keydown", onBootKey);
-    window.addEventListener("click", onBootClick);
   }
 
   /* ---------------- 404 countdown ---------------- */

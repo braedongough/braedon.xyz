@@ -809,59 +809,6 @@ a:hover {
   50% { opacity: 0; }
 }
 
-/* ---------- Boot overlay ---------- */
-
-.boot-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
-  text-align: center;
-  opacity: 1;
-  transition: opacity 250ms steps(6, end);
-}
-
-.boot-overlay.boot-fading {
-  opacity: 0;
-}
-
-.boot-logo {
-  font-family: var(--font-hud);
-  font-weight: 700;
-  font-size: clamp(1.6rem, 5.5vw, 2.6rem);
-  color: var(--cream);
-  text-shadow:
-    3px 3px 0 var(--rim),
-    0 0 18px rgba(0, 217, 232, 0.35),
-    6px 6px 0 rgba(240, 44, 168, 0.4);
-  margin: 0;
-}
-
-.boot-sub {
-  font-family: var(--font-hud);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--cyan);
-  text-shadow: 0 0 6px rgba(0, 217, 232, 0.4);
-  margin: 0;
-}
-
-.boot-press {
-  font-family: var(--font-hud);
-  font-size: 0.9rem;
-  letter-spacing: 0.1em;
-  color: var(--gold);
-  text-shadow: 0 0 8px rgba(255, 217, 26, 0.4);
-  margin: 1.25rem 0 0;
-  animation: blink 1s steps(1, end) infinite;
-}
-
 /* ---------- Chrome mode (Konami easter egg) ---------- */
 
 html.chrome-mode h1,
@@ -1121,7 +1068,6 @@ body[data-page="404"] main {
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .boot-press,
   .gameover-title {
     animation: none;
   }
