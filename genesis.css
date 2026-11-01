@@ -341,18 +341,6 @@ p {
   margin: 0 0 0.95rem;
 }
 
-/* Cartridge tab eyebrow labels */
-.eyebrow {
-  display: block;
-  font-family: var(--font-hud);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  text-shadow: 0 0 6px rgba(255, 217, 26, 0.3);
-  margin: 0 0 0.3rem;
-}
-
 /* ---------- Links ---------- */
 
 a {
