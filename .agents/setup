@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Prepares an Amp orb for this repo. The site has no dependencies; it only needs Bun.
+set -euo pipefail
+
+if ! command -v bun >/dev/null 2>&1; then
+  echo "Installing Bun..."
+  curl -fsSL https://bun.sh/install | bash
+fi
+
+echo "Bun $("${BUN_INSTALL:-$HOME/.bun}/bin/bun" --version 2>/dev/null || bun --version) ready"
