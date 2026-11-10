@@ -7,10 +7,10 @@
   <meta name="description" content="Braedon Gough's reading list — what he's reading now and what's up next.">
   <meta name="theme-color" content="#0A0A14">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <script src="/main.js?v=5" defer></script>
+  <script src="/main.js?v=6" defer></script>
   <link rel="preload" href="/fonts/silkscreen-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/silkscreen-bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/genesis.css?v=5">
+  <link rel="stylesheet" href="/genesis.css?v=6">
 </head>
 <body>
   <nav aria-label="Main">
@@ -28,119 +28,131 @@
     <p>What I'm reading now and what's up next. Synced weekly from my reading list spreadsheet.</p>
 
     <!-- reading-list:start -->
-    <div class="reading" data-reading>
+    <div class="reading" data-reading data-type="type">
       <script type="application/json" class="reading-columns">[{"key":"title","label":"Title","kind":"text"},{"key":"author","label":"Author","kind":"text"},{"key":"genre","label":"Genre","kind":"text"},{"key":"type","label":"Type","kind":"filter"},{"key":"status","label":"Status","kind":"filter"},{"key":"medium","label":"Medium","kind":"filter"},{"key":"heard-about-it-via","label":"Heard about it via","kind":"filter"},{"key":"source-detail","label":"Source detail","kind":"text"},{"key":"notes","label":"Notes","kind":"text"},{"key":"date-added","label":"Date added","kind":"date"}]</script>
-      <p class="reading-count">18 BOOKS</p>
-      <ul class="book-list">
-        <li class="book" data-title="Dungeon Crawler Carl" data-author="Matt Dinniman" data-genre="LitRPG / science fantasy" data-type="Fiction" data-status="To read" data-medium="Kindle" data-heard-about-it-via="Person" data-source-detail="Strongly recommended by Greg Tobi Jens and Lauren" data-notes="" data-date-added="2026-11-05">
-          <h3 class="book-title">Dungeon Crawler Carl</h3>
-          <p class="book-byline">Matt Dinniman</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Fiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--2" title="Medium">Kindle</li><li class="tag tag--3" title="Heard about it via">Person</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>LitRPG / science fantasy</dd></div><div><dt>Source detail</dt><dd>Strongly recommended by Greg Tobi Jens and Lauren</dd></div><div><dt>Date added</dt><dd>2026-11-05</dd></div></dl>
+      <section class="reading-now">
+        <div class="reading-head"><h2>Now reading</h2><span class="reading-count">6</span></div>
+        <ul class="now-list">
+          <li class="book book--now cart tone-1" data-title="I Eat the Stars: How to Live Fully and Beautifully in a Collapsing World" data-author="Sarah Wilson" data-genre="Memoir / living through collapse" data-type="Nonfiction" data-status="Reading" data-medium="Physical" data-heard-about-it-via="Person" data-source-detail="Recommended by Karina, who just finished it" data-notes="" data-date-added="2026-11-01">
+            <details>
+              <summary><span class="cart-head"><span class="book-type">Nonfiction</span></span><span class="cart-body"><h3 class="book-title">I Eat the Stars: How to Live Fully and Beautifully in a Collapsing World</h3><span class="book-byline">Sarah Wilson</span><span class="book-tags"><span class="tag tag--2" title="Medium">Physical</span><span class="tag tag--3" title="Heard about it via">Person</span></span></span></summary>
+              <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Memoir / living through collapse</dd></div><div><dt>Source detail</dt><dd>Recommended by Karina, who just finished it</dd></div><div><dt>Date added</dt><dd>2026-11-01</dd></div></dl></div>
+            </details>
+          </li>
+          <li class="book book--now cart tone-1" data-title="Incorruptible: Why Good Companies Go Bad... and How Great Companies Stay Great" data-author="Eric Ries" data-genre="Business / management" data-type="Nonfiction" data-status="Reading" data-medium="Audible" data-heard-about-it-via="Podcast" data-source-detail="Lenny's Podcast - How to build a company that withstands any era with Eric Ries: https://www.lennysnewsletter.com/p/how-to-build-a-company-that-withstands" data-notes="Bought after this episode" data-date-added="2026-11-01">
+            <details>
+              <summary><span class="cart-head"><span class="book-type">Nonfiction</span></span><span class="cart-body"><h3 class="book-title">Incorruptible: Why Good Companies Go Bad... and How Great Companies Stay Great</h3><span class="book-byline">Eric Ries</span><span class="book-tags"><span class="tag tag--2" title="Medium">Audible</span><span class="tag tag--3" title="Heard about it via">Podcast</span></span></span></summary>
+              <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Business / management</dd></div><div><dt>Source detail</dt><dd>Lenny's Podcast - How to build a company that withstands any era with Eric Ries: <a href="https://www.lennysnewsletter.com/p/how-to-build-a-company-that-withstands">https://www.lennysnewsletter.com/p/how-to-build-a-company-that-withstands</a></dd></div><div><dt>Notes</dt><dd>Bought after this episode</dd></div><div><dt>Date added</dt><dd>2026-11-01</dd></div></dl></div>
+            </details>
+          </li>
+          <li class="book book--now cart tone-1" data-title="OAuth 2 in Action" data-author="Justin Richer, Antonio Sanso" data-genre="Technical / software" data-type="Nonfiction" data-status="Reading" data-medium="Physical" data-heard-about-it-via="Web search" data-source-detail="Was looking for books on OAuth" data-notes="" data-date-added="2026-10-11">
+            <details>
+              <summary><span class="cart-head"><span class="book-type">Nonfiction</span></span><span class="cart-body"><h3 class="book-title">OAuth 2 in Action</h3><span class="book-byline">Justin Richer, Antonio Sanso</span><span class="book-tags"><span class="tag tag--2" title="Medium">Physical</span><span class="tag tag--3" title="Heard about it via">Web search</span></span></span></summary>
+              <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Technical / software</dd></div><div><dt>Source detail</dt><dd>Was looking for books on OAuth</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl></div>
+            </details>
+          </li>
+          <li class="book book--now cart tone-1" data-title="A Curious History of Sex" data-author="Kate Lister" data-genre="History" data-type="Nonfiction" data-status="Reading" data-medium="Physical" data-heard-about-it-via="Bookstore" data-source-detail="Politikens Boghal, Copenhagen - browsing with Karina; bought on a whim" data-notes="" data-date-added="2026-10-11">
+            <details>
+              <summary><span class="cart-head"><span class="book-type">Nonfiction</span></span><span class="cart-body"><h3 class="book-title">A Curious History of Sex</h3><span class="book-byline">Kate Lister</span><span class="book-tags"><span class="tag tag--2" title="Medium">Physical</span><span class="tag tag--3" title="Heard about it via">Bookstore</span></span></span></summary>
+              <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>History</dd></div><div><dt>Source detail</dt><dd>Politikens Boghal, Copenhagen - browsing with Karina; bought on a whim</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl></div>
+            </details>
+          </li>
+          <li class="book book--now cart tone-1" data-title="The Pragmatic Programmer" data-author="David Thomas, Andrew Hunt" data-genre="Software / career nonfiction" data-type="Nonfiction" data-status="Reading" data-medium="Audible" data-heard-about-it-via="Podcast" data-source-detail="The Pragmatic Engineer podcast" data-notes="" data-date-added="2026-10-11">
+            <details>
+              <summary><span class="cart-head"><span class="book-type">Nonfiction</span></span><span class="cart-body"><h3 class="book-title">The Pragmatic Programmer</h3><span class="book-byline">David Thomas, Andrew Hunt</span><span class="book-tags"><span class="tag tag--2" title="Medium">Audible</span><span class="tag tag--3" title="Heard about it via">Podcast</span></span></span></summary>
+              <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Software / career nonfiction</dd></div><div><dt>Source detail</dt><dd>The Pragmatic Engineer podcast</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl></div>
+            </details>
+          </li>
+          <li class="book book--now cart tone-0" data-title="The Correspondent" data-author="Virginia Evans" data-genre="Literary / epistolary fiction" data-type="Fiction" data-status="Reading" data-medium="Kindle" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - Bill Gates episode (2026-09-29)" data-notes="" data-date-added="2026-10-11">
+            <details>
+              <summary><span class="cart-head"><span class="book-type">Fiction</span></span><span class="cart-body"><h3 class="book-title">The Correspondent</h3><span class="book-byline">Virginia Evans</span><span class="book-tags"><span class="tag tag--2" title="Medium">Kindle</span><span class="tag tag--3" title="Heard about it via">Podcast</span></span></span></summary>
+              <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Literary / epistolary fiction</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - Bill Gates episode (2026-09-29)</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl></div>
+            </details>
+          </li>
+        </ul>
+      </section>
+      <section class="reading-next">
+        <div class="reading-head"><h2>Up next</h2><span class="reading-count">11</span><span class="reading-legend"><span class="tone-0"><i></i>Fiction</span><span class="tone-1"><i></i>Nonfiction</span></span></div>
+        <ul class="book-list">
+        <li class="book book--row tone-0" data-title="Dungeon Crawler Carl" data-author="Matt Dinniman" data-genre="LitRPG / science fantasy" data-type="Fiction" data-status="To read" data-medium="Kindle" data-heard-about-it-via="Person" data-source-detail="Strongly recommended by Greg Tobi Jens and Lauren" data-notes="" data-date-added="2026-11-05">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Dungeon Crawler Carl</h3><span class="book-byline">Matt Dinniman</span></span><span class="book-tags"><span class="tag tag--2" title="Medium">Kindle</span><span class="tag tag--3" title="Heard about it via">Person</span></span><span class="book-date">2026-11-05</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>LitRPG / science fantasy</dd></div><div><dt>Type</dt><dd>Fiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>Strongly recommended by Greg Tobi Jens and Lauren</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="I Eat the Stars: How to Live Fully and Beautifully in a Collapsing World" data-author="Sarah Wilson" data-genre="Memoir / living through collapse" data-type="Nonfiction" data-status="Reading" data-medium="Physical" data-heard-about-it-via="Person" data-source-detail="Recommended by Karina, who just finished it" data-notes="" data-date-added="2026-11-01">
-          <h3 class="book-title">I Eat the Stars: How to Live Fully and Beautifully in a Collapsing World</h3>
-          <p class="book-byline">Sarah Wilson</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">Reading</li><li class="tag tag--2" title="Medium">Physical</li><li class="tag tag--3" title="Heard about it via">Person</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Memoir / living through collapse</dd></div><div><dt>Source detail</dt><dd>Recommended by Karina, who just finished it</dd></div><div><dt>Date added</dt><dd>2026-11-01</dd></div></dl>
+        <li class="book book--row tone-0" data-title="Stoner" data-author="John Williams" data-genre="Novel / literary fiction" data-type="Fiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): https://overcast.fm/+AAoiPW9scdA" data-notes="Recommended by Sarah Longwell at the end of the episode" data-date-added="2026-10-25">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Stoner</h3><span class="book-byline">John Williams</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-25</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Novel / literary fiction</dd></div><div><dt>Type</dt><dd>Fiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): <a href="https://overcast.fm/+AAoiPW9scdA">https://overcast.fm/+AAoiPW9scdA</a></dd></div><div><dt>Notes</dt><dd>Recommended by Sarah Longwell at the end of the episode</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="Incorruptible: Why Good Companies Go Bad... and How Great Companies Stay Great" data-author="Eric Ries" data-genre="Business / management" data-type="Nonfiction" data-status="Reading" data-medium="Audible" data-heard-about-it-via="Podcast" data-source-detail="Lenny's Podcast - How to build a company that withstands any era with Eric Ries: https://www.lennysnewsletter.com/p/how-to-build-a-company-that-withstands" data-notes="Bought after this episode" data-date-added="2026-11-01">
-          <h3 class="book-title">Incorruptible: Why Good Companies Go Bad... and How Great Companies Stay Great</h3>
-          <p class="book-byline">Eric Ries</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">Reading</li><li class="tag tag--2" title="Medium">Audible</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Business / management</dd></div><div><dt>Source detail</dt><dd>Lenny's Podcast - How to build a company that withstands any era with Eric Ries: <a href="https://www.lennysnewsletter.com/p/how-to-build-a-company-that-withstands">https://www.lennysnewsletter.com/p/how-to-build-a-company-that-withstands</a></dd></div><div><dt>Notes</dt><dd>Bought after this episode</dd></div><div><dt>Date added</dt><dd>2026-11-01</dd></div></dl>
+        <li class="book book--row tone-0" data-title="The Poisonwood Bible" data-author="Barbara Kingsolver" data-genre="Novel / historical fiction" data-type="Fiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): https://overcast.fm/+AAoiPW9scdA" data-notes="Recommended by Sarah Longwell at the end of the episode; Karina also highly recommends it" data-date-added="2026-10-25">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">The Poisonwood Bible</h3><span class="book-byline">Barbara Kingsolver</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-25</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Novel / historical fiction</dd></div><div><dt>Type</dt><dd>Fiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): <a href="https://overcast.fm/+AAoiPW9scdA">https://overcast.fm/+AAoiPW9scdA</a></dd></div><div><dt>Notes</dt><dd>Recommended by Sarah Longwell at the end of the episode; Karina also highly recommends it</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="Stoner" data-author="John Williams" data-genre="Novel / literary fiction" data-type="Fiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): https://overcast.fm/+AAoiPW9scdA" data-notes="Recommended by Sarah Longwell at the end of the episode" data-date-added="2026-10-25">
-          <h3 class="book-title">Stoner</h3>
-          <p class="book-byline">John Williams</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Fiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Novel / literary fiction</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): <a href="https://overcast.fm/+AAoiPW9scdA">https://overcast.fm/+AAoiPW9scdA</a></dd></div><div><dt>Notes</dt><dd>Recommended by Sarah Longwell at the end of the episode</dd></div><div><dt>Date added</dt><dd>2026-10-25</dd></div></dl>
+        <li class="book book--row tone-1" data-title="Thinking in Systems: A Primer" data-author="Donella H. Meadows" data-genre="Systems thinking" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Pragmatic Engineer podcast - The revised rules of engineering management with Will Larson (2026-10-21): https://overcast.fm/+ABKyPIGonfY" data-notes="Recommended by Will Larson at the end of the episode" data-date-added="2026-10-23">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Thinking in Systems: A Primer</h3><span class="book-byline">Donella H. Meadows</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-23</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Systems thinking</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>The Pragmatic Engineer podcast - The revised rules of engineering management with Will Larson (2026-10-21): <a href="https://overcast.fm/+ABKyPIGonfY">https://overcast.fm/+ABKyPIGonfY</a></dd></div><div><dt>Notes</dt><dd>Recommended by Will Larson at the end of the episode</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="The Poisonwood Bible" data-author="Barbara Kingsolver" data-genre="Novel / historical fiction" data-type="Fiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): https://overcast.fm/+AAoiPW9scdA" data-notes="Recommended by Sarah Longwell at the end of the episode; Karina also highly recommends it" data-date-added="2026-10-25">
-          <h3 class="book-title">The Poisonwood Bible</h3>
-          <p class="book-byline">Barbara Kingsolver</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Fiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Novel / historical fiction</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - What Hundreds of Focus Groups With Trump Voters Revealed with Sarah Longwell (2026-10-23): <a href="https://overcast.fm/+AAoiPW9scdA">https://overcast.fm/+AAoiPW9scdA</a></dd></div><div><dt>Notes</dt><dd>Recommended by Sarah Longwell at the end of the episode; Karina also highly recommends it</dd></div><div><dt>Date added</dt><dd>2026-10-25</dd></div></dl>
+        <li class="book book--row tone-1" data-title="The Psychology of Software Teams" data-author="Cat Hicks" data-genre="Psychology / software teams" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Newsletter" data-source-detail="Charity Majors newsletter" data-notes="" data-date-added="2026-10-13">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">The Psychology of Software Teams</h3><span class="book-byline">Cat Hicks</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Newsletter</span></span><span class="book-date">2026-10-13</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Psychology / software teams</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>Charity Majors newsletter</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="Thinking in Systems: A Primer" data-author="Donella H. Meadows" data-genre="Systems thinking" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Pragmatic Engineer podcast - The revised rules of engineering management with Will Larson (2026-10-21): https://overcast.fm/+ABKyPIGonfY" data-notes="Recommended by Will Larson at the end of the episode" data-date-added="2026-10-23">
-          <h3 class="book-title">Thinking in Systems: A Primer</h3>
-          <p class="book-byline">Donella H. Meadows</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Systems thinking</dd></div><div><dt>Source detail</dt><dd>The Pragmatic Engineer podcast - The revised rules of engineering management with Will Larson (2026-10-21): <a href="https://overcast.fm/+ABKyPIGonfY">https://overcast.fm/+ABKyPIGonfY</a></dd></div><div><dt>Notes</dt><dd>Recommended by Will Larson at the end of the episode</dd></div><div><dt>Date added</dt><dd>2026-10-23</dd></div></dl>
+        <li class="book book--row tone-1" data-title="Building Resilient Distributed Systems: Patterns and Practices for Stable Software" data-author="Sam Newman" data-genre="Software engineering / distributed systems" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Pragmatic Engineer podcast (Sam Newman was guest; found via newsletter)" data-notes="O'Reilly" data-date-added="2026-10-13">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Building Resilient Distributed Systems: Patterns and Practices for Stable Software</h3><span class="book-byline">Sam Newman</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-13</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Software engineering / distributed systems</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>The Pragmatic Engineer podcast (Sam Newman was guest; found via newsletter)</dd></div><div><dt>Notes</dt><dd>O'Reilly</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="The Psychology of Software Teams" data-author="Cat Hicks" data-genre="Psychology / software teams" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Newsletter" data-source-detail="Charity Majors newsletter" data-notes="" data-date-added="2026-10-13">
-          <h3 class="book-title">The Psychology of Software Teams</h3>
-          <p class="book-byline">Cat Hicks</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Newsletter</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Psychology / software teams</dd></div><div><dt>Source detail</dt><dd>Charity Majors newsletter</dd></div><div><dt>Date added</dt><dd>2026-10-13</dd></div></dl>
+        <li class="book book--row tone-1" data-title="Addiction by Design: Machine Gambling in Las Vegas" data-author="Natasha Dow Schüll" data-genre="Anthropology / technology" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="Unknown - he thinks maybe Lenny's Podcast" data-notes="" data-date-added="2026-10-12">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Addiction by Design: Machine Gambling in Las Vegas</h3><span class="book-byline">Natasha Dow Schüll</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-12</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Anthropology / technology</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>Unknown - he thinks maybe Lenny's Podcast</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="Building Resilient Distributed Systems: Patterns and Practices for Stable Software" data-author="Sam Newman" data-genre="Software engineering / distributed systems" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Pragmatic Engineer podcast (Sam Newman was guest; found via newsletter)" data-notes="O'Reilly" data-date-added="2026-10-13">
-          <h3 class="book-title">Building Resilient Distributed Systems: Patterns and Practices for Stable Software</h3>
-          <p class="book-byline">Sam Newman</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Software engineering / distributed systems</dd></div><div><dt>Source detail</dt><dd>The Pragmatic Engineer podcast (Sam Newman was guest; found via newsletter)</dd></div><div><dt>Notes</dt><dd>O'Reilly</dd></div><div><dt>Date added</dt><dd>2026-10-13</dd></div></dl>
+        <li class="book book--row tone-1" data-title="Will and Attention: A Memoir" data-author="Meghan O'Gieblyn" data-genre="Memoir" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="Search Engine ep. 153 Unreliable Narrator (PJ Vogt)" data-notes="" data-date-added="2026-10-11">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Will and Attention: A Memoir</h3><span class="book-byline">Meghan O'Gieblyn</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-11</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Memoir</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>Search Engine ep. 153 Unreliable Narrator (PJ Vogt)</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="Addiction by Design: Machine Gambling in Las Vegas" data-author="Natasha Dow Schüll" data-genre="Anthropology / technology" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="Unknown - he thinks maybe Lenny's Podcast" data-notes="" data-date-added="2026-10-12">
-          <h3 class="book-title">Addiction by Design: Machine Gambling in Las Vegas</h3>
-          <p class="book-byline">Natasha Dow Schüll</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Anthropology / technology</dd></div><div><dt>Source detail</dt><dd>Unknown - he thinks maybe Lenny's Podcast</dd></div><div><dt>Date added</dt><dd>2026-10-12</dd></div></dl>
+        <li class="book book--row tone-1" data-title="God, Human, Animal, Machine: Technology, Metaphor, and the Search for Meaning" data-author="Meghan O'Gieblyn" data-genre="Nonfiction / philosophy of technology" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="Search Engine ep. 153 Unreliable Narrator (PJ Vogt)" data-notes="" data-date-added="2026-10-11">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">God, Human, Animal, Machine: Technology, Metaphor, and the Search for Meaning</h3><span class="book-byline">Meghan O'Gieblyn</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-11</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Nonfiction / philosophy of technology</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>Search Engine ep. 153 Unreliable Narrator (PJ Vogt)</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="Will and Attention: A Memoir" data-author="Meghan O'Gieblyn" data-genre="Memoir" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="Search Engine ep. 153 Unreliable Narrator (PJ Vogt)" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">Will and Attention: A Memoir</h3>
-          <p class="book-byline">Meghan O'Gieblyn</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Memoir</dd></div><div><dt>Source detail</dt><dd>Search Engine ep. 153 Unreliable Narrator (PJ Vogt)</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
+        <li class="book book--row tone-1" data-title="Into the Wood Chipper" data-author="Nicholas Enrich" data-genre="Political memoir" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - Bill Gates episode (2026-09-29)" data-notes="" data-date-added="2026-10-11">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">Into the Wood Chipper</h3><span class="book-byline">Nicholas Enrich</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-11</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Political memoir</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - Bill Gates episode (2026-09-29)</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="God, Human, Animal, Machine: Technology, Metaphor, and the Search for Meaning" data-author="Meghan O'Gieblyn" data-genre="Nonfiction / philosophy of technology" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="Search Engine ep. 153 Unreliable Narrator (PJ Vogt)" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">God, Human, Animal, Machine: Technology, Metaphor, and the Search for Meaning</h3>
-          <p class="book-byline">Meghan O'Gieblyn</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Nonfiction / philosophy of technology</dd></div><div><dt>Source detail</dt><dd>Search Engine ep. 153 Unreliable Narrator (PJ Vogt)</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
+        <li class="book book--row tone-1" data-title="The Infinity Machine" data-author="Sebastian Mallaby" data-genre="Biography / AI and technology" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - Bill Gates episode (2026-09-29)" data-notes="" data-date-added="2026-10-11">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">The Infinity Machine</h3><span class="book-byline">Sebastian Mallaby</span></span><span class="book-tags"><span class="tag tag--3" title="Heard about it via">Podcast</span></span><span class="book-date">2026-10-11</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Biography / AI and technology</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>To read</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - Bill Gates episode (2026-09-29)</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="OAuth 2 in Action" data-author="Justin Richer, Antonio Sanso" data-genre="Technical / software" data-type="Nonfiction" data-status="Reading" data-medium="Physical" data-heard-about-it-via="Web search" data-source-detail="Was looking for books on OAuth" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">OAuth 2 in Action</h3>
-          <p class="book-byline">Justin Richer, Antonio Sanso</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">Reading</li><li class="tag tag--2" title="Medium">Physical</li><li class="tag tag--3" title="Heard about it via">Web search</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Technical / software</dd></div><div><dt>Source detail</dt><dd>Was looking for books on OAuth</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
+        </ul>
+      </section>
+      <section class="reading-other">
+        <div class="reading-head"><h2>Finished</h2><span class="reading-count">1</span></div>
+        <ul class="book-list">
+        <li class="book book--row tone-1" data-title="The New New Thing" data-author="Michael Lewis" data-genre="Business / tech nonfiction" data-type="Nonfiction" data-status="Finished" data-medium="Kindle" data-heard-about-it-via="" data-source-detail="" data-notes="" data-date-added="2026-10-11">
+          <details>
+            <summary><span class="book-main"><h3 class="book-title">The New New Thing</h3><span class="book-byline">Michael Lewis</span></span><span class="book-tags"><span class="tag tag--2" title="Medium">Kindle</span></span><span class="book-date">2026-10-11</span></summary>
+            <div class="book-more"><dl class="book-meta"><div><dt>Genre</dt><dd>Business / tech nonfiction</dd></div><div><dt>Type</dt><dd>Nonfiction</dd></div><div><dt>Status</dt><dd>Finished</dd></div></dl></div>
+          </details>
         </li>
-        <li class="book" data-title="A Curious History of Sex" data-author="Kate Lister" data-genre="History" data-type="Nonfiction" data-status="Reading" data-medium="Physical" data-heard-about-it-via="Bookstore" data-source-detail="Politikens Boghal, Copenhagen - browsing with Karina; bought on a whim" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">A Curious History of Sex</h3>
-          <p class="book-byline">Kate Lister</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">Reading</li><li class="tag tag--2" title="Medium">Physical</li><li class="tag tag--3" title="Heard about it via">Bookstore</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>History</dd></div><div><dt>Source detail</dt><dd>Politikens Boghal, Copenhagen - browsing with Karina; bought on a whim</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
-        </li>
-        <li class="book" data-title="The New New Thing" data-author="Michael Lewis" data-genre="Business / tech nonfiction" data-type="Nonfiction" data-status="Finished" data-medium="Kindle" data-heard-about-it-via="" data-source-detail="" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">The New New Thing</h3>
-          <p class="book-byline">Michael Lewis</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">Finished</li><li class="tag tag--2" title="Medium">Kindle</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Business / tech nonfiction</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
-        </li>
-        <li class="book" data-title="The Pragmatic Programmer" data-author="David Thomas, Andrew Hunt" data-genre="Software / career nonfiction" data-type="Nonfiction" data-status="Reading" data-medium="Audible" data-heard-about-it-via="Podcast" data-source-detail="The Pragmatic Engineer podcast" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">The Pragmatic Programmer</h3>
-          <p class="book-byline">David Thomas, Andrew Hunt</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">Reading</li><li class="tag tag--2" title="Medium">Audible</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Software / career nonfiction</dd></div><div><dt>Source detail</dt><dd>The Pragmatic Engineer podcast</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
-        </li>
-        <li class="book" data-title="The Correspondent" data-author="Virginia Evans" data-genre="Literary / epistolary fiction" data-type="Fiction" data-status="Reading" data-medium="Kindle" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - Bill Gates episode (2026-09-29)" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">The Correspondent</h3>
-          <p class="book-byline">Virginia Evans</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Fiction</li><li class="tag tag--1" title="Status">Reading</li><li class="tag tag--2" title="Medium">Kindle</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Literary / epistolary fiction</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - Bill Gates episode (2026-09-29)</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
-        </li>
-        <li class="book" data-title="Into the Wood Chipper" data-author="Nicholas Enrich" data-genre="Political memoir" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - Bill Gates episode (2026-09-29)" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">Into the Wood Chipper</h3>
-          <p class="book-byline">Nicholas Enrich</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Political memoir</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - Bill Gates episode (2026-09-29)</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
-        </li>
-        <li class="book" data-title="The Infinity Machine" data-author="Sebastian Mallaby" data-genre="Biography / AI and technology" data-type="Nonfiction" data-status="To read" data-medium="" data-heard-about-it-via="Podcast" data-source-detail="The Ezra Klein Show - Bill Gates episode (2026-09-29)" data-notes="" data-date-added="2026-10-11">
-          <h3 class="book-title">The Infinity Machine</h3>
-          <p class="book-byline">Sebastian Mallaby</p>
-          <ul class="book-tags"><li class="tag tag--0" title="Type">Nonfiction</li><li class="tag tag--1" title="Status">To read</li><li class="tag tag--3" title="Heard about it via">Podcast</li></ul>
-          <dl class="book-meta"><div><dt>Genre</dt><dd>Biography / AI and technology</dd></div><div><dt>Source detail</dt><dd>The Ezra Klein Show - Bill Gates episode (2026-09-29)</dd></div><div><dt>Date added</dt><dd>2026-10-11</dd></div></dl>
-        </li>
-      </ul>
+        </ul>
+      </section>
     </div>
     <!-- reading-list:end -->
   </main>

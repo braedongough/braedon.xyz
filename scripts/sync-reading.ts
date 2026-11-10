@@ -82,6 +82,14 @@ function kindOf(values: string[]): Kind {
   return "text";
 }
 
+// Columns with special roles, matched by header name. Books whose Status is
+// "Reading" become the Now reading cards, "To read" (or blank) is Up next with
+// the filters, and every other status gets its own list. Type picks the colour.
+const STATUS = "status";
+const NOW = "reading";
+const NEXT = "to read";
+const TYPE = "type";
+
 function render(rows: string[][]): string {
   const [header = [], ...data] = rows;
   const books = data.filter((r) => r.some((c) => c?.trim()));
@@ -100,43 +108,99 @@ function render(rows: string[][]): string {
   });
   if (!columns.length) throw new Error("Sheet has no header row");
 
-  const cell = (r: string[], c: Column) => (r[c.index] ?? "").trim();
-  const sortCol = columns.find((c) => c.kind === "date");
+  const cell = (r: string[], c?: Column) => (c ? (r[c.index] ?? "").trim() : "");
+  const [titleCol, bylineCol, ...rest] = columns;
+  const sortCol = rest.find((c) => c.kind === "date");
   if (sortCol) books.sort((a, b) => cell(b, sortCol).localeCompare(cell(a, sortCol)));
 
-  const [titleCol, bylineCol, ...rest] = columns;
-  const filterCols = rest.filter((c) => c.kind === "filter");
-  const items = books.map((r) => {
-    const attrs = columns.map((c) => ` data-${c.key}="${esc(cell(r, c))}"`).join("");
-    const tags = filterCols
+  const statusCol = rest.find((c) => c.key === STATUS);
+  const typeCol = rest.find((c) => c.key === TYPE && c.kind === "filter");
+  const types = [...new Set(books.map((r) => cell(r, typeCol)).filter(Boolean))].sort();
+  const tone = (r: string[]) => (typeCol && cell(r, typeCol) ? types.indexOf(cell(r, typeCol)) % 4 : 1);
+  // remaining short-value columns (Medium, Heard via, ...) show as tags
+  const tagCols = rest.filter((c) => c.kind === "filter" && c !== statusCol && c !== typeCol);
+
+  const attrs = (r: string[]) => columns.map((c) => ` data-${c.key}="${esc(cell(r, c))}"`).join("");
+  const tags = (r: string[]) =>
+    tagCols
       .filter((c) => cell(r, c))
-      .map((c) => `<li class="tag tag--${filterCols.indexOf(c) % 4}" title="${esc(c.label)}">${esc(cell(r, c))}</li>`)
+      .map((c) => `<span class="tag tag--${(tagCols.indexOf(c) + 2) % 4}" title="${esc(c.label)}">${esc(cell(r, c))}</span>`)
       .join("");
-    const meta = rest
-      .filter((c) => c.kind !== "filter" && cell(r, c))
+  // every column not already in the summary goes in the expandable details
+  const more = (r: string[], shown: (Column | undefined)[]) => {
+    const items = rest
+      .filter((c) => !shown.includes(c) && cell(r, c))
       .map((c) => `<div><dt>${esc(c.label)}</dt><dd>${linkify(cell(r, c))}</dd></div>`)
       .join("");
-    return [
-      `        <li class="book"${attrs}>`,
-      `          <h3 class="book-title">${esc(cell(r, titleCol))}</h3>`,
-      bylineCol && cell(r, bylineCol) ? `          <p class="book-byline">${esc(cell(r, bylineCol))}</p>` : "",
-      tags ? `          <ul class="book-tags">${tags}</ul>` : "",
-      meta ? `          <dl class="book-meta">${meta}</dl>` : "",
-      `        </li>`,
-    ]
-      .filter(Boolean)
-      .join("\n");
-  });
+    return items ? `<div class="book-more"><dl class="book-meta">${items}</dl></div>` : "";
+  };
+  const titleAndByline = (r: string[]) =>
+    `<h3 class="book-title">${esc(cell(r, titleCol))}</h3>` +
+    (cell(r, bylineCol) ? `<span class="book-byline">${esc(cell(r, bylineCol))}</span>` : "");
 
+  const status = (r: string[]) => cell(r, statusCol).toLowerCase();
+  const now = statusCol ? books.filter((r) => status(r) === NOW) : [];
+  const next = books.filter((r) => !statusCol || !status(r) || status(r) === NEXT);
+  const others = new Map<string, string[][]>();
+  for (const r of books) {
+    if (now.includes(r) || next.includes(r)) continue;
+    const label = cell(r, statusCol);
+    others.set(label, [...(others.get(label) ?? []), r]);
+  }
+
+  const card = (r: string[]) =>
+    [
+      `          <li class="book book--now cart tone-${tone(r)}"${attrs(r)}>`,
+      `            <details>`,
+      `              <summary><span class="cart-head"><span class="book-type">${esc(cell(r, typeCol))}</span></span>` +
+        `<span class="cart-body">${titleAndByline(r)}<span class="book-tags">${tags(r)}</span></span></summary>`,
+      `              ${more(r, [typeCol, statusCol, ...tagCols])}`,
+      `            </details>`,
+      `          </li>`,
+    ].join("\n");
+  const row = (r: string[]) =>
+    [
+      `        <li class="book book--row tone-${tone(r)}"${attrs(r)}>`,
+      `          <details>`,
+      `            <summary><span class="book-main">${titleAndByline(r)}</span>` +
+        `<span class="book-tags">${tags(r)}</span><span class="book-date">${esc(cell(r, sortCol))}</span></summary>`,
+      `            ${more(r, [...tagCols, sortCol])}`,
+      `          </details>`,
+      `        </li>`,
+    ].join("\n");
+
+  const legend = types.length
+    ? `<span class="reading-legend">${types.map((t, i) => `<span class="tone-${i % 4}"><i></i>${esc(t)}</span>`).join("")}</span>`
+    : "";
   const meta = columns.map(({ key, label, kind }) => ({ key, label, kind }));
   return [
     START,
-    `    <div class="reading" data-reading>`,
+    `    <div class="reading" data-reading data-type="${typeCol?.key ?? ""}">`,
     `      <script type="application/json" class="reading-columns">${JSON.stringify(meta).replace(/</g, "\\u003c")}</script>`,
-    `      <p class="reading-count">${books.length} ${books.length === 1 ? "BOOK" : "BOOKS"}</p>`,
-    `      <ul class="book-list">`,
-    ...items,
-    `      </ul>`,
+    ...(now.length
+      ? [
+          `      <section class="reading-now">`,
+          `        <div class="reading-head"><h2>Now reading</h2><span class="reading-count">${now.length}</span></div>`,
+          `        <ul class="now-list">`,
+          ...now.map(card),
+          `        </ul>`,
+          `      </section>`,
+        ]
+      : []),
+    `      <section class="reading-next">`,
+    `        <div class="reading-head"><h2>${statusCol ? "Up next" : "All books"}</h2><span class="reading-count">${next.length}</span>${legend}</div>`,
+    `        <ul class="book-list">`,
+    ...next.map(row),
+    `        </ul>`,
+    `      </section>`,
+    ...[...others].flatMap(([label, rs]) => [
+      `      <section class="reading-other">`,
+      `        <div class="reading-head"><h2>${esc(label)}</h2><span class="reading-count">${rs.length}</span></div>`,
+      `        <ul class="book-list">`,
+      ...rs.map(row),
+      `        </ul>`,
+      `      </section>`,
+    ]),
     `    </div>`,
     `    ${END}`,
   ].join("\n");

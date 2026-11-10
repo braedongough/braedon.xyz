@@ -182,118 +182,141 @@
     if (window.__starfield) window.__starfield.nudge(v[0], v[1]);
   });
 
-  /* ---------------- Reading list: search, filter, sort ---------------- */
+  /* ---------------- Reading list: search, filter, sort (Up next) ---------------- */
 
   const reading = $("[data-reading]");
-  if (reading) {
+  const readingList = reading && $(".reading-next .book-list", reading);
+  if (readingList) {
     const columns = JSON.parse($(".reading-columns", reading).textContent);
-    const books = Array.from(reading.querySelectorAll(".book"));
-    const list = $(".book-list", reading);
-    const count = $(".reading-count", reading);
+    const books = Array.from(readingList.children);
+    const head = $(".reading-next .reading-head", reading);
+    const count = $(".reading-count", head);
+    const typeKey = reading.dataset.type || "";
     const val = (book, key) => book.getAttribute("data-" + key) || "";
+    const valuesOf = (key) => [...new Set(books.map((b) => val(b, key)).filter(Boolean))].sort();
     const params = new URLSearchParams(window.location.search);
-    const filters = columns.filter((c) => c.kind === "filter");
-    const sortable = columns.filter((c, i) => i < 2 || c.kind !== "text");
-    const defaultSort = columns.find((c) => c.kind === "date");
+    const el = (tag, cls, text) => {
+      const node = document.createElement(tag);
+      if (cls) node.className = cls;
+      if (text) node.textContent = text;
+      return node;
+    };
 
-    const controls = document.createElement("div");
-    controls.className = "reading-controls";
-
-    function field(label, control) {
-      const wrap = document.createElement("label");
-      wrap.className = "field";
-      const span = document.createElement("span");
-      span.textContent = label;
-      wrap.append(span, control);
-      controls.appendChild(wrap);
-      return control;
-    }
-
-    function selectOf(options, value) {
-      const sel = document.createElement("select");
-      for (const [v, text] of options) sel.add(new Option(text, v));
-      sel.value = options.some(([v]) => v === value) ? value : options[0][0];
-      return sel;
-    }
-
-    const search = field("Search", document.createElement("input"));
+    const tools = el("div", "reading-tools");
+    const search = el("input");
     search.type = "search";
-    search.placeholder = "Title, author, anything";
+    search.placeholder = "Search up next";
+    search.setAttribute("aria-label", "Search up next");
     search.value = params.get("q") || "";
+    tools.appendChild(search);
 
-    const filterEls = filters.map((c) => {
-      const values = [...new Set(books.map((b) => val(b, c.key)).filter(Boolean))].sort();
-      const sel = selectOf([["", "All"], ...values.map((v) => [v, v])], params.get(c.key) || "");
-      return [c, field(c.label, sel)];
+    // one-click switch for the colour-coded Type column
+    let typeValue = "";
+    const typeButtons = [];
+    if (typeKey) {
+      const types = valuesOf(typeKey);
+      const seg = el("div", "seg");
+      seg.setAttribute("role", "group");
+      seg.setAttribute("aria-label", columns.find((c) => c.key === typeKey).label);
+      typeValue = types.includes(params.get(typeKey)) ? params.get(typeKey) : "";
+      for (const v of ["", ...types]) {
+        const b = el("button", "", v || "All");
+        b.type = "button";
+        b.dataset.value = v;
+        b.addEventListener("click", () => {
+          typeValue = v;
+          apply();
+        });
+        typeButtons.push(b);
+        seg.appendChild(b);
+      }
+      tools.appendChild(seg);
+    }
+
+    const dateCol = columns.find((c) => c.kind === "date");
+    const sorts = dateCol ? [[dateCol.key + ":desc", "Newest"], [dateCol.key + ":asc", "Oldest"]] : [];
+    for (const c of columns.slice(0, 2)) sorts.push([c.key + ":asc", c.label + " A\u2013Z"]);
+    const sortEl = el("select", "reading-sort");
+    sortEl.setAttribute("aria-label", "Sort");
+    for (const [v, text] of sorts) sortEl.add(new Option(text, v));
+    sortEl.value = sorts.some(([v]) => v === params.get("sort")) ? params.get("sort") : sorts[0][0];
+    sortEl.addEventListener("change", apply);
+    tools.appendChild(sortEl);
+
+    // less-used filters live in a panel behind one button
+    const panel = el("div", "reading-filters");
+    panel.id = "reading-filters";
+    const filterEls = [];
+    for (const c of columns) {
+      if (c.kind !== "filter" || c.key === typeKey) continue;
+      const values = valuesOf(c.key);
+      if (values.length < 2) continue;
+      const sel = el("select");
+      sel.add(new Option("All", ""));
+      for (const v of values) sel.add(new Option(v, v));
+      sel.value = values.includes(params.get(c.key)) ? params.get(c.key) : "";
+      sel.addEventListener("change", apply);
+      const label = el("label");
+      label.append(el("span", "", c.label), sel);
+      panel.appendChild(label);
+      filterEls.push([c, sel]);
+    }
+    const moreBtn = el("button", "btn reading-more");
+    moreBtn.type = "button";
+    moreBtn.setAttribute("aria-controls", panel.id);
+    moreBtn.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      apply();
     });
+    panel.hidden = !filterEls.some(([, sel]) => sel.value);
+    if (filterEls.length) tools.appendChild(moreBtn);
 
-    const sortEl = field(
-      "Sort by",
-      selectOf(sortable.map((c) => [c.key, c.label]), params.get("sort") || (defaultSort ? defaultSort.key : "")),
-    );
-    const dirEl = document.createElement("button");
-    dirEl.type = "button";
-    dirEl.className = "btn reading-dir";
-    let desc = params.has("dir") ? params.get("dir") === "desc" : !!defaultSort;
-    controls.appendChild(dirEl);
-
-    reading.insertBefore(controls, count);
-
-    const empty = document.createElement("p");
-    empty.className = "reading-empty";
-    empty.textContent = "NO MATCHES. TRY ANOTHER FILTER.";
-    reading.appendChild(empty);
+    const empty = el("p", "reading-empty", "NO MATCHES. TRY ANOTHER FILTER.");
+    head.after(tools, panel);
+    readingList.after(empty);
 
     function apply() {
       const q = search.value.trim().toLowerCase();
       const active = filterEls.filter(([, sel]) => sel.value);
-      const key = sortEl.value;
-      const kind = (columns.find((c) => c.key === key) || {}).kind;
-      dirEl.textContent = desc ? "\u25BC DESC" : "\u25B2 ASC";
-      dirEl.setAttribute("aria-label", desc ? "Sort descending" : "Sort ascending");
+      const [key, dir] = sortEl.value.split(":");
 
       const shown = books.filter((b) => {
+        if (typeValue && val(b, typeKey) !== typeValue) return false;
         if (active.some(([c, sel]) => val(b, c.key) !== sel.value)) return false;
         return !q || columns.some((c) => val(b, c.key).toLowerCase().includes(q));
       });
-
       // books missing the sort value always go last
       shown.sort((a, b) => {
         const x = val(a, key);
         const y = val(b, key);
         if (!x || !y) return (x ? 0 : 1) - (y ? 0 : 1);
-        const cmp = kind === "number" ? x - y : x.localeCompare(y, undefined, { sensitivity: "base" });
-        return desc ? -cmp : cmp;
+        const cmp = x.localeCompare(y, undefined, { sensitivity: "base" });
+        return dir === "desc" ? -cmp : cmp;
       });
 
       books.forEach((b) => (b.hidden = true));
       for (const b of shown) {
         b.hidden = false;
-        list.appendChild(b);
+        readingList.appendChild(b);
       }
-      count.textContent = shown.length === books.length
-        ? books.length + " BOOKS"
-        : "SHOWING " + shown.length + " OF " + books.length;
+      count.textContent = shown.length === books.length ? books.length : shown.length + "/" + books.length;
       empty.hidden = shown.length > 0;
+      typeButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.value === typeValue)));
+      moreBtn.textContent = "Filters" + (active.length ? " \u00B7 " + active.length : "") + (panel.hidden ? " \u25BE" : " \u25B4");
+      moreBtn.setAttribute("aria-expanded", String(!panel.hidden));
 
       // keep unrelated switches like ?nostars
       const next = new URLSearchParams(window.location.search);
-      for (const k of ["q", "sort", "dir", ...filters.map((c) => c.key)]) next.delete(k);
+      for (const k of ["q", "sort", "dir", typeKey, ...filterEls.map(([c]) => c.key)]) if (k) next.delete(k);
       if (q) next.set("q", search.value.trim());
+      if (typeValue) next.set(typeKey, typeValue);
       for (const [c, sel] of active) next.set(c.key, sel.value);
-      if (key !== (defaultSort && defaultSort.key)) next.set("sort", key);
-      if (desc !== !!defaultSort || next.has("sort")) next.set("dir", desc ? "desc" : "asc");
+      if (sortEl.value !== sorts[0][0]) next.set("sort", sortEl.value);
       const qs = next.toString();
       history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : ""));
     }
 
     search.addEventListener("input", apply);
-    for (const [, sel] of filterEls) sel.addEventListener("change", apply);
-    sortEl.addEventListener("change", apply);
-    dirEl.addEventListener("click", () => {
-      desc = !desc;
-      apply();
-    });
     apply();
   }
 

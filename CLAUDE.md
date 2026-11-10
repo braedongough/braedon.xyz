@@ -73,7 +73,7 @@ All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every p
 - Arrow-key cursors for the nav and `data-select-menu` lists. Arrow keys and WASD also steer the starfield.
 - Konami code (↑↑↓↓←→←→BA) sets off a burst of pixel flames from the bottom of the screen (skipped with reduced motion).
 - 404 countdown back to `/`.
-- Reading list search, dropdown filters, and sort, with state kept in the URL.
+- Reading list (Up next) search, Type switch, Filters panel, and sort, with state kept in the URL.
 - Query switch: `?nostars` skips the starfield.
 - Respects `prefers-reduced-motion`. The starfield renders one static frame, and animations are disabled in CSS.
 
@@ -81,7 +81,8 @@ All interactivity lives in one IIFE in `main.js`, loaded with `defer` on every p
 
 - `scripts/sync-reading.ts` (`bun run sync:reading`) reads the "Reading List" tab of a private Google Sheet with a service account key in `GOOGLE_SERVICE_ACCOUNT_KEY`. It has no dependencies; it signs the OAuth JWT with Web Crypto.
 - It rewrites only the block between `<!-- reading-list:start -->` and `<!-- reading-list:end -->` in `reading.html`. Don't hand-edit that block.
-- Every sheet column is rendered, except headers starting with `_`. The first two columns are the title and byline. Column behavior is inferred from values: dates become the default sort (newest first), short repeating values become filter dropdowns and tags, and everything else is searchable text.
+- Every sheet column is rendered, except headers starting with `_`. The first two columns are the title and byline. Column behavior is inferred from values: dates become the default sort (newest first), short repeating values become filters and tags, and everything else is searchable text shown when a book is expanded (`<details>`).
+- Layout: books with Status "Reading" are `.cart` cards in the Now reading box; "To read" (or blank) books form the Up next list, which gets the search/filter/sort controls; any other status (such as "Finished") gets its own list below. The Type column colours each book (`tone-N`, in sorted value order: magenta, cyan, lime, gold) and becomes the one-click switch above Up next; other filters sit behind the Filters button.
 - `.github/workflows/sync-reading.yml` runs it every Monday at 06:00 UTC (and on demand) and commits `reading.html` only when it changed. It needs the `GOOGLE_SERVICE_ACCOUNT_KEY` repo secret.
 
 ## Conventions
